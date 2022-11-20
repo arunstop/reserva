@@ -2,7 +2,7 @@
 const route = useRoute()
 </script>
 <template>
-    <nav class="flex gap-2 rounded-xl bg-purple-900/40 p-2">
+    <nav class="flex gap-2 rounded-xl bg-purple-900/40 p-2 mb-2 sm:mb-4">
         <NuxtLink to="/" replace>
             <CommonsMenuItem title="Home" :active="route.path === '/'" />
         </NuxtLink>

@@ -2,7 +2,7 @@
 export default {
     props: {
         title: String,
-        active: String,
+        active: Boolean,
     },
 }
 </script>

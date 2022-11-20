@@ -3,18 +3,20 @@ const props = defineProps({
     start: { type: Number, required: true },
 })
 
-const count = ref(props.start)
-const increase = () => count.value++
-const decrease = () => count.value--
+const count = useCounter();
+
+// methods 
+const increase = () => {
+    counterMinus()
+}
+const decrease = () => {
+    counterPlus()
+}
 </script>
 
 <template>
-    <div
-        class="flex gap-4 bg-red-500/70 flex-col items-center p-2 sm:p-4 backdrop-blur-md"
-    >
-        <span class="text-2xl sm:text-3xl"
-            >Counter app, starts at {{ start }}</span
-        >
+    <div class="flex gap-4 bg-red-500/70 flex-col items-center p-2 sm:p-4 backdrop-blur-md">
+        <span class="text-2xl sm:text-3xl">Counter app, starts at {{ start }}</span>
         <div class="grid grid-cols-2 gap-4">
             <span class="text-5xl col-span-2 text-center">{{ count }}</span>
             <CommonsButton text="Decrease" :on-click="decrease" />
