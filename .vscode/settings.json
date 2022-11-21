@@ -1,5 +1,7 @@
 {
+    "workbench.colorTheme": "Vitesse Dark",
     "workbench.preferredDarkColorTheme": "Vitesse Dark",
     "workbench.preferredLightColorTheme": "GitHub Light",
     "editor.fontFamily": "'Fisa Code', Consolas, 'Courier New', monospace",
+    "typescript.tsdk": "node_modules/typescript/lib",
 }
