@@ -9,6 +9,9 @@ module.exports = {
     ],
     theme: {
         extend: {},
+        fontFamily: {
+            righteous: ['Righteous','Inter', 'system-ui', 'sans-serif'],
+        },
     },
     plugins: [],
 }

@@ -7,10 +7,10 @@ const count = useCounter();
 
 // methods 
 const increase = () => {
-    counterMinus()
+    counterPlus()
 }
 const decrease = () => {
-    counterPlus()
+    counterMinus()
 }
 </script>
 

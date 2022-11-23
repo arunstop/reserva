@@ -6,6 +6,7 @@ import {
 } from '~~/base/data/models/service'
 
 export const useUser = () => useSupabaseUser()
+export const useUserClient = () => useSupabaseClient()
 
 export async function serviceAuthSignUp({
     data,
@@ -14,9 +15,8 @@ export async function serviceAuthSignUp({
     console.log(data)
     try {
         const { email, password } = data
-        const client = useSupabaseClient()
 
-        const { data: user, error } = await client.auth.signUp({
+        const { data: user, error } = await useUserClient().auth.signUp({
             email: email,
             password: password,
         })
@@ -42,9 +42,8 @@ export async function serviceAuthSignIn({
     console.log(data)
     try {
         const { email, password } = data
-        const client = useSupabaseClient()
 
-        const { data: user, error } = await client.auth.signInWithPassword({
+        const { data: user, error } = await useUserClient().auth.signInWithPassword({
             email: email,
             password: password,
         })
@@ -68,9 +67,8 @@ export async function serviceAuthSignOut({
     callback,
 }: IServiceParams<boolean, IServiceResponse<boolean | null>>) {
     try {
-        console.log(data);
-        const client = useSupabaseClient()
-        const { error } = await client.auth.signOut()
+        console.log(data)
+        const { error } = await useUserClient().auth.signOut()
         if (error) {
             throw `${error.name} - ${error.message}`
         }

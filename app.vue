@@ -20,7 +20,7 @@ useHead(
 // })
 </script>
 <template>
-    <div class="p-4  min-h-screen flex flex-col [&>*]:rounded-xl max-w-[900px] mx-auto">
+    <div class="min-h-screen flex flex-col">
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>

@@ -1,7 +1,6 @@
 {
-    "workbench.colorTheme": "Vitesse Dark",
+    "workbench.colorTheme": "Bearded Theme Light",
     "workbench.preferredDarkColorTheme": "Vitesse Dark",
-    "workbench.preferredLightColorTheme": "GitHub Light",
+    "workbench.preferredLightColorTheme": "Bearded Theme Light",
     "editor.fontFamily": "'Fisa Code', Consolas, 'Courier New', monospace",
-    "typescript.tsdk": "node_modules/typescript/lib",
 }

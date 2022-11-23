@@ -2,13 +2,13 @@
 const email = ref('')
 const password = ref('')
 const signUp = async  () => {
-    const res = await serviceAuthSignIn({ data: { email: email.value, password: password.value } })
+    const res = await serviceAuthSignUp({ data: { email: email.value, password: password.value } })
     if (!res) return console.log('signup error')
     navigateTo("/")
 }
 const signIn = async () => {
     const res = await serviceAuthSignIn({ data: { email: email.value, password: password.value } })
-    if (!res) return console.log('signin error')
+    if (!res) return console.log('login error')
     alert('Sign in successful')
     navigateTo("/")
 }
@@ -32,7 +32,7 @@ const signIn = async () => {
             <CommonsInput placeholder="Password" type="password" v-model="password" />
         </div>
         <div>
-            <CommonsButton text="Login" @click="signUp" />
+            <CommonsButton text="signUp" @click="signUp" />
         </div>
     </div>
 </template>
