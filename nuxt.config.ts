@@ -3,7 +3,6 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Components from 'unplugin-vue-components/vite'
 
-
 export default defineNuxtConfig({
     typescript: {
         shim: false,
@@ -12,7 +11,12 @@ export default defineNuxtConfig({
         '@nuxtjs/tailwindcss',
         '@nuxtjs/supabase',
         '@nuxtjs/google-fonts',
-        ['unplugin-icons/nuxt', { /* options */ }],
+        [
+            'unplugin-icons/nuxt',
+            {
+                /* options */
+            },
+        ],
     ],
     tailwindcss: {
         cssPath: '~/assets/css/tailwind.css',
@@ -37,4 +41,7 @@ export default defineNuxtConfig({
             }),
         ],
     },
+    // routeRules: {
+    //     '/': { static: true },
+    // },
 })
