@@ -1,5 +1,5 @@
 <script setup></script>
 <template>
-    <MainSectionFeed/>
-    <MainSectionHero/>
+  <MainSectionHero />
+  <MainSectionFeed />
 </template>
