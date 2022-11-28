@@ -9,7 +9,12 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ICarbonAccessibility: typeof import('~icons/carbon/accessibility')['default']
     ICarbonSearch: typeof import('~icons/carbon/search')['default']
+    IMdiAlertCircleOutline: typeof import('~icons/mdi/alert-circle-outline')['default']
+    IMdiAlertOutline: typeof import('~icons/mdi/alert-outline')['default']
     IMdiCalendar: typeof import('~icons/mdi/calendar')['default']
+    IMdiCart: typeof import('~icons/mdi/cart')['default']
+    IMdiCheckBold: typeof import('~icons/mdi/check-bold')['default']
+    IMdiError: typeof import('~icons/mdi/error')['default']
     IMdiMapCalendar: typeof import('~icons/mdi/map-calendar')['default']
     IMdiMapMarker: typeof import('~icons/mdi/map-marker')['default']
     IMdiSearch: typeof import('~icons/mdi/search')['default']

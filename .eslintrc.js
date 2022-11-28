@@ -38,5 +38,17 @@ module.exports = {
     'vue/multi-word-component-names': ['off'],
     // 'vue/singleline-html-element-content-newline': ['off'],
     'vue/no-setup-props-destructure': ['off'],
+    'vue/html-self-closing': ['off'],
+    'vue/max-attributes-per-line': [
+      'error',
+      {
+        singleline: {
+          max: 4,
+        },
+        multiline: {
+          max: 1,
+        },
+      },
+    ],
   },
 }
