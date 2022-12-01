@@ -28,14 +28,30 @@
         })
   )
 
-  function onChange(newOrder: IOrder) {
-    onUpdate({ ...newOrder, id: order.id ,qty:qty.value})
+  // function onChange(newOrder: IOrder) {
+  //   onUpdate({ ...newOrder, id: order.id ,qty:qty.value})
+  // }
+
+  function changeQty(n: number) {
+    // can't be less than 0
+    if (n < 0 && qty.value <= 1) return
+    // can't be less than 20
+    if (n > 0 && qty.value >= 20) return
+    qty.value = qty.value + n
   }
+
+  watch(
+    [() => value.value, () => qty.value],
+    ([newValue, newQty], [prevVal, prevQty]) => {
+      if (newValue === prevVal && newQty === prevQty) return
+      onUpdate({ ...newValue, id: order.id, qty: newQty })
+    }
+  )
 </script>
 <template>
   <div class="grid grid-cols-2 gap-[inherit] items-center">
     <div class="flex gap-[inherit]">
-      <Combobox v-model="value" @update:model-value="onChange">
+      <Combobox v-model="value">
         <div class="relative w-full">
           <div
             class="relative w-full cursor-default overflow-hidden rounded-lg bg-zinc-100"
@@ -122,6 +138,7 @@
         <template #lead>
           <CommonsButton
             class="!rounded-none !rounded-l-xl text-xl sm:text-2xl bg-none text-current"
+            @click="changeQty(-1)"
           >
             <i-ic-round-minus />
           </CommonsButton>
@@ -129,6 +146,7 @@
         <template #trail>
           <CommonsButton
             class="!rounded-none !rounded-r-xl text-xl sm:text-2xl bg-none text-current"
+            @click="changeQty(1)"
           >
             <i-ic-round-plus />
           </CommonsButton>

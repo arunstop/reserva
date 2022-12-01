@@ -17,7 +17,7 @@
 
   const bookingList = ref<Map<string, IOrder>>(
     new Map<string, IOrder>([
-      ['1', { id: '1', name: '1 November 2022', qty: 18, stock: 1 }],
+      [Date.now()+'', { id: Date.now()+'', name: '1 November 2022', qty: 18, stock: 1 }],
     ])
   )
 
@@ -34,7 +34,7 @@
 
   function addBooking(order?: IOrder) {
     if (!order) {
-      const newId = Math.random() + ''
+      const newId = Date.now() + ''
       return bookingList.value.set(newId, {
         id: newId,
         name: '1 November 2022',
@@ -42,7 +42,7 @@
         stock: 100,
       })
     }
-    bookingList.value.set(order.id, order)
+    bookingList.value.set(Date.now() + '', order)
   }
 
   function updateBooking(order: IOrder) {
@@ -56,6 +56,7 @@
   }
 
   function removeBooking(orderId: string) {
+    console.log(orderId)
     if (bookingList.value.size < 2) return
     bookingList.value.delete(orderId)
   }
@@ -73,7 +74,7 @@
       >
         <EventBookingItem
           v-for="(booking, idx) in bookingList"
-          :key="idx"
+          :key="booking[0] + idx"
           :order="booking[1]"
           :closeable="bookingList.size < 2"
           :on-remove="() => removeBooking(booking[0])"
