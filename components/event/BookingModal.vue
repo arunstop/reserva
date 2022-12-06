@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { IOrder, IPost } from '~~/composables/types'
+  import { IPost } from '~~/composables/types'
 
   defineProps<{
     post: IPost
@@ -7,20 +7,7 @@
     close: () => void
   }>()
 
-  const spots: IOrder[] = [
-    { id: '1', name: '1 November 2022', qty: 18, stock: 100 },
-    { id: '2', name: '2 November 2022', qty: 28, stock: 100 },
-    { id: '3', name: '3 November 2022', qty: 17, stock: 100 },
-    { id: '4', name: '4 November 2022', qty: 88, stock: 100 },
-    { id: '5', name: '5 November 2022', qty: 16, stock: 100 },
-  ]
-
-  const bookingList = ref<Map<string, IOrder>>(
-    new Map<string, IOrder>([
-      [Date.now()+'', { id: Date.now()+'', name: '1 November 2022', qty: 18, stock: 1 }],
-    ])
-  )
-
+  const confirm = ref<() => void>(()=>null)
   function closeModal() {
     navigateTo(
       {
@@ -32,33 +19,8 @@
     )
   }
 
-  function addBooking(order?: IOrder) {
-    if (!order) {
-      const newId = Date.now() + ''
-      return bookingList.value.set(newId, {
-        id: newId,
-        name: '1 November 2022',
-        qty: 1,
-        stock: 100,
-      })
-    }
-    bookingList.value.set(Date.now() + '', order)
-  }
-
-  function updateBooking(order: IOrder) {
-    // check if the updated data is the same as
-    if (
-      JSON.stringify(order) === JSON.stringify(bookingList.value.get(order.id))
-    )
-      return
-    console.log(order)
-    bookingList.value.set(order.id, order)
-  }
-
-  function removeBooking(orderId: string) {
-    console.log(orderId)
-    if (bookingList.value.size < 2) return
-    bookingList.value.delete(orderId)
+  function changeList(newConfirm: () => void) {
+    confirm.value = newConfirm
   }
 </script>
 <template>
@@ -69,32 +31,13 @@
       </div>
     </template>
     <template #content>
-      <div
-        class="min-h-full sm:min-h-[auto] sm:h-auto flex flex-col gap-[inherit]"
-      >
-        <EventBookingItem
-          v-for="(booking, idx) in bookingList"
-          :key="booking[0] + idx"
-          :order="booking[1]"
-          :closeable="bookingList.size < 2"
-          :on-remove="() => removeBooking(booking[0])"
-          :on-update="(data) => updateBooking(data)"
-          :spots="spots"
-        />
-        <CommonsButton
-          class="self-start max-sm:w-full"
-          @click="() => addBooking()"
-        >
-          <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
-          <span class="">Add more</span>
-        </CommonsButton>
-      </div>
+      <EventBookingForm :on-close="closeModal" :on-change="changeList" />
     </template>
     <template #footer>
       <div
         class="flex flex-col max-sm:gap-2 sm:items-end w-full sticky bottom-0 sm:static"
       >
-        <CommonsButton class="max-sm:w-full" @click="closeModal">
+        <CommonsButton class="max-sm:w-full" @click="confirm">
           <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
           <span class="text-lg">Reserve my spot</span>
         </CommonsButton>

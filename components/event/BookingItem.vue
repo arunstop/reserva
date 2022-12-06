@@ -8,23 +8,32 @@
     ComboboxOptions,
     TransitionRoot,
   } from '@headlessui/vue'
-  const { order, spots, onUpdate, closeable, onRemove } = defineProps<{
-    order: IOrder
+  const props = defineProps<{
+    booking: [string,IOrder]
     spots: IOrder[]
+    selectedSpots: string[]
     closeable?: boolean
     onRemove?: () => void
-    onUpdate: (order: IOrder) => void
+    onUpdate: (booking: [string,IOrder]) => void
   }>()
+  // const { initalSpots, booking, selectedSpots, onUpdate, closeable, onRemove }=props
 
-  const value = ref<IOrder>(order)
-  const qty = ref(order.qty)
+  const qty = ref(1)
   const query = ref('')
+  const spot = ref<IOrder>(props.booking[1])
 
-  const filteredPeople = computed(() =>
+  const unSpots = computed(() =>
+    props.spots.filter((e) => {
+      // unselectedSpots
+      if(props.selectedSpots.length ===1 || spot.value.name===e.name)return true
+      return !props.selectedSpots.includes(e.name)
+    })
+  )
+  const filteredSpots = computed(() =>
     query.value === ''
-      ? spots
-      : spots.filter((spot) => {
-          return spot.name.toLowerCase().includes(query.value.toLowerCase())
+      ? unSpots.value
+      : unSpots.value.filter((e) => {
+          return e.name.toLowerCase().includes(query.value.toLowerCase())
         })
   )
 
@@ -37,21 +46,29 @@
     if (n < 0 && qty.value <= 1) return
     // can't be less than 20
     if (n > 0 && qty.value >= 20) return
-    qty.value = qty.value + n
+    // got to add * 1 because of the ref is turning to string when input is empty, somehow
+    qty.value = qty.value * 1 + n
   }
 
   watch(
-    [() => value.value, () => qty.value],
+    [() => spot.value, () => qty.value],
     ([newValue, newQty], [prevVal, prevQty]) => {
       if (newValue === prevVal && newQty === prevQty) return
-      onUpdate({ ...newValue, id: order.id, qty: newQty })
+      props.onUpdate([props.booking[0],{ ...newValue}])
     }
   )
+
+  // watch(()=>props.selectedSpots,(val,prev)=>{
+  //   spots.value = props.initalSpots.filter((e) => {
+  //      if (e.name === props.booking.name||props.selectedSpots.length<2) return true
+  //     return !props.selectedSpots.includes(e.name)
+  //   })
+  // })
 </script>
 <template>
   <div class="grid grid-cols-2 gap-[inherit] items-center">
     <div class="flex gap-[inherit]">
-      <Combobox v-model="value">
+      <Combobox v-model="spot">
         <div class="relative w-full">
           <div
             class="relative w-full cursor-default overflow-hidden rounded-lg bg-zinc-100"
@@ -80,14 +97,14 @@
               class="absolute mt-1 max-h-60 z-10 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
             >
               <div
-                v-if="filteredPeople.length === 0 && query !== ''"
+                v-if="filteredSpots.length === 0 && query !== ''"
                 class="relative cursor-default select-none py-2 px-4 text-gray-700"
               >
                 Nothing found.
               </div>
 
               <ComboboxOption
-                v-for="person in filteredPeople"
+                v-for="person in filteredSpots"
                 :key="person.id"
                 v-slot="{ selected, active }"
                 as="template"
@@ -134,6 +151,7 @@
         min="1"
         max="10"
         placeholder="Amount"
+        required
       >
         <template #lead>
           <CommonsButton

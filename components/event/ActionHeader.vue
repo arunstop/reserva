@@ -74,5 +74,5 @@
       </div>
     </div>
   </nav>
-  <LazyEventBookingModal :show="!!reserveModal" :close="closeModal" :post="post" />
+  <LazyEventBookingModal :key="'same'" :show="!!reserveModal" :close="closeModal" :post="post" />
 </template>
