@@ -18,7 +18,7 @@
   }>()
   // const { initalSpots, booking, selectedSpots, onUpdate, closeable, onRemove }=props
 
-  const qty = ref(1)
+  const qty = ref(props.booking[1].edited ? props.booking[1].qty : 1)
   const query = ref('')
   const spot = ref<IOrder>(props.booking[1])
 
@@ -42,6 +42,7 @@
   // }
 
   function changeQty(n: number) {
+    if(!n) qty.value=1
     // can't be less than 0
     if (n < 0 && qty.value <= 1) return
     // can't be less than 20
@@ -54,7 +55,7 @@
     [() => spot.value, () => qty.value],
     ([newValue, newQty], [prevVal, prevQty]) => {
       if (newValue === prevVal && newQty === prevQty) return
-      props.onUpdate([props.booking[0],{ ...newValue}])
+      props.onUpdate([props.booking[0],{ ...newValue,qty:newQty,edited:true}])
     }
   )
 
@@ -152,6 +153,7 @@
         max="10"
         placeholder="Amount"
         required
+        @blur="changeQty(0)"
       >
         <template #lead>
           <CommonsButton
