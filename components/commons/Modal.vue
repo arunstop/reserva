@@ -56,18 +56,18 @@
             <div
               class="flex min-h-full overflow-hidden sm:rounded-xl max-sm:w-full"
             >
-              <div
+              <DialogPanel
                 class="w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl transform overflow-hidden bg-white text-left shadow-xl transition-all max-h-screen sm:max-h-[90vh] min-h-[60vh] flex sm:rounded-xl max-sm:w-full"
               >
-                <DialogPanel
+                <div
                   class="flex flex-col gap-2 sm:gap-4 relative overflow-y-auto p-3 sm:p-6 w-full"
                 >
                   <slot name="header" />
                   <slot name="content" />
                   <slot name="footer" />
-                </DialogPanel>
+                </div>
                 <slot />
-              </div>
+              </DialogPanel>
             </div>
           </TransitionChild>
         </div>

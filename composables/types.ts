@@ -20,4 +20,5 @@ export interface IOrder {
   qty: number
   stock: number
   edited?: boolean
+  price: number
 }
