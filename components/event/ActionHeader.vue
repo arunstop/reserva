@@ -74,5 +74,11 @@
       </div>
     </div>
   </nav>
-  <LazyEventBookingModal :key="'same'" :show="!!reserveModal" :close="closeModal" :post="post" />
+  <LazyEventBookingModal
+    :key="'same'"
+    :show="!!reserveModal"
+    :close="closeModal"
+    :post="post"
+  />
+  <MainToastContainer />
 </template>

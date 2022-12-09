@@ -56,7 +56,7 @@
       v-if="user !== null"
       class=""
       text="Logout"
-      :on-click="logout"
+      @click="logout"
     />
   </nav>
 </template>

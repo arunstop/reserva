@@ -61,7 +61,7 @@
     )
     console.log(await wait)
 
-    loading.value = 'SUCCESS'
+    setLoading(false)
 
     confirmation.value()
   }
@@ -71,6 +71,15 @@
     if (state === 'SUCCESS') return `bg-green-900/60`
     if (state === 'PENDING') return `bg-black/60`
     return `bg-black/60`
+  }
+
+  function addToast() {
+    toastAdd({
+      title: 'Spot Booked',
+      message: 'Spot Booked',
+      type: 'SUCCESS',
+      duration: 3000,
+    })
   }
 
   watch(
@@ -105,8 +114,16 @@
           }}</span>
         </div>
         <CommonsButton
+          class="max-sm:w-full from-yellow-500 to-red-500"
+          @click="addToast"
+          :disabled="loading"
+        >
+          <i-mdi-cart class="text-lg sm:text-xl hidden sm:block" />
+          <span class="text-lg">Add to cart</span>
+        </CommonsButton>
+        <CommonsButton
           class="max-sm:w-full"
-          :on-click="confirm"
+          @click="confirm"
           :disabled="loading"
         >
           <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
@@ -134,30 +151,35 @@
       as="div"
     >
       <div
-        class="transition-all duration-500 flex flex-col gap-2 sm:gap-4 "
-        :class="loading === `PENDING` ? `` : ``"
+        class="transition-all duration-500 flex flex-col gap-2 sm:gap-4 pointer-events-auto"
       >
         <template v-if="loading === `PENDING`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Loading...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Loading...</span
+          >
           <CommonsButton
             text="Cancel"
-            :on-click="() => setLoading(false)"
+            @click="() => setLoading(false)"
             :disabled="!loading"
           />
         </template>
         <template v-else-if="loading === `SUCCESS`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Success...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Success...</span
+          >
           <CommonsButton
             text="Continue"
-            :on-click="() => setLoading(false)"
+            @click="() => setLoading(false)"
             :disabled="!loading"
           />
         </template>
         <template v-else-if="loading === `ERROR`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Error...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Error...</span
+          >
           <CommonsButton
             text="Try again"
-            :on-click="() => setLoading(false)"
+            @click="() => setLoading(false)"
             :disabled="!loading"
           />
         </template>
