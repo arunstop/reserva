@@ -62,6 +62,12 @@
     console.log(await wait)
 
     setLoading(false)
+    toastAdd({
+      title: 'Spot Booked',
+      message: 'Spot Booked',
+      type: 'PENDING',
+      duration: 3000,
+    })
 
     confirmation.value()
   }
@@ -73,7 +79,7 @@
     return `bg-black/60`
   }
 
-  function addToast() {
+  function addToCart() {
     toastAdd({
       title: 'Spot Booked',
       message: 'Spot Booked',
@@ -115,16 +121,16 @@
         </div>
         <CommonsButton
           class="max-sm:w-full from-yellow-500 to-red-500"
-          @click="addToast"
           :disabled="loading"
+          @click="addToCart"
         >
           <i-mdi-cart class="text-lg sm:text-xl hidden sm:block" />
           <span class="text-lg">Add to cart</span>
         </CommonsButton>
         <CommonsButton
           class="max-sm:w-full"
-          @click="confirm"
           :disabled="loading"
+          @click="confirm"
         >
           <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
           <span class="text-lg">Reserve my spot</span>
@@ -159,8 +165,8 @@
           >
           <CommonsButton
             text="Cancel"
-            @click="() => setLoading(false)"
             :disabled="!loading"
+            @click="() => setLoading(false)"
           />
         </template>
         <template v-else-if="loading === `SUCCESS`">
@@ -169,8 +175,8 @@
           >
           <CommonsButton
             text="Continue"
-            @click="() => setLoading(false)"
             :disabled="!loading"
+            @click="() => setLoading(false)"
           />
         </template>
         <template v-else-if="loading === `ERROR`">
@@ -179,8 +185,8 @@
           >
           <CommonsButton
             text="Try again"
-            @click="() => setLoading(false)"
             :disabled="!loading"
+            @click="() => setLoading(false)"
           />
         </template>
       </div>
