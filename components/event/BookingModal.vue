@@ -24,14 +24,17 @@
       ],
     ])
   )
+
   const totalPrice = computed(() => {
     return Array.from(bookingList.value.values()).reduce(
       (acc, e) => acc + e.price * e.qty,
       0
     )
   })
+
   const confirmation = ref<() => void>(() => null)
   const loading = ref<INetState>()
+
   function closeModal() {
     navigateTo(
       {
@@ -65,8 +68,9 @@
     toastAdd({
       title: 'Spot Booked',
       message: 'Spot Booked',
-      type: 'PENDING',
+      type: 'SUCCESS',
       duration: 3000,
+      clickToClose:true,
     })
 
     confirmation.value()
@@ -81,10 +85,11 @@
 
   function addToCart() {
     toastAdd({
-      title: 'Spot Booked',
-      message: 'Spot Booked',
+      title: 'Added to cart',
+      message: 'Added to cart',
       type: 'SUCCESS',
       duration: 3000,
+      clickToClose:true,  
     })
   }
 
@@ -160,9 +165,7 @@
         class="transition-all duration-500 flex flex-col gap-2 sm:gap-4 pointer-events-auto"
       >
         <template v-if="loading === `PENDING`">
-          <span class="text-white text-base sm:text-xl font-bold text-center"
-            >Loading...</span
-          >
+          <span class="text-white text-base sm:text-xl font-bold text-center">Loading...</span>
           <CommonsButton
             text="Cancel"
             :disabled="!loading"
@@ -170,9 +173,7 @@
           />
         </template>
         <template v-else-if="loading === `SUCCESS`">
-          <span class="text-white text-base sm:text-xl font-bold text-center"
-            >Success...</span
-          >
+          <span class="text-white text-base sm:text-xl font-bold text-center">Success...</span>
           <CommonsButton
             text="Continue"
             :disabled="!loading"
@@ -180,9 +181,7 @@
           />
         </template>
         <template v-else-if="loading === `ERROR`">
-          <span class="text-white text-base sm:text-xl font-bold text-center"
-            >Error...</span
-          >
+          <span class="text-white text-base sm:text-xl font-bold text-center">Error...</span>
           <CommonsButton
             text="Try again"
             :disabled="!loading"

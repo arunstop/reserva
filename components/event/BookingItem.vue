@@ -112,12 +112,19 @@
                 :value="person"
               >
                 <li
-                  class="relative cursor-default select-none py-2 pl-10 pr-4"
+                  class="flex relative cursor-default select-none max-sm:text-sm px-1 py-2 sm:px-2 sm:py-4 gap-2 sm:gap-4"
                   :class="{
-                    'bg-teal-600 text-white': active,
+                    'bg-gray-300/50': selected,
+                    '!bg-gray-600 text-white': active,
                     'text-gray-900': !active,
                   }"
                 >
+                  <i-mdi-check
+                    class="text-lg sm:text-xl"
+                    :class="{
+                      'opacity-0':!selected
+                    }"
+                  />
                   <span
                     class="block truncate"
                     :class="{
@@ -126,16 +133,6 @@
                     }"
                   >
                     {{ person.name }}
-                  </span>
-                  <span
-                    v-if="selected"
-                    class="absolute inset-y-0 left-0 flex items-center pl-3"
-                    :class="{
-                      'text-white': active,
-                      'text-teal-600': !active,
-                    }"
-                  >
-                    <i-mdi-check class="h-5 w-5" aria-hidden="true" />
                   </span>
                 </li>
               </ComboboxOption>

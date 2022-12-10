@@ -3,16 +3,19 @@
 
   const props = defineProps<{ toast: IToast }>()
 
-  const dispose = (duration?: number) =>
+  function dispose() {
+    toastRemove(props.toast.id)
+  }
+  const startDispose = (duration?: number) =>
     setTimeout(() => {
-      toastRemove(props.toast.id)
+      dispose()
     }, duration || props.toast.duration)
 
   const timeout = ref<NodeJS.Timeout>()
 
   onMounted(() => {
     if (!props.toast.duration) return
-    timeout.value = dispose()
+    timeout.value = startDispose()
   })
 
   onUnmounted(() => {
@@ -25,7 +28,7 @@
   }
 
   const handleMouseLeave = (event: MouseEvent) => {
-    timeout.value = dispose(2000)
+    timeout.value = startDispose(2000)
   }
   function getStyle(toast: IToast) {
     switch (toast.type) {
@@ -54,19 +57,26 @@
   const style = getStyle(props.toast)
 </script>
 <template>
-  <div
-    class="px-2 py-1.5 sm:px-4 sm:py-3 rounded-full flex gap-2 sm:gap-4 items-center ring-1 sm:ring-2  ring-zinc-500/30 group 
-    cursor-default transition-all hover:scale-95 hover:ring-2 sm:hover:ring-4"
-    :class="style.bg"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
-    <span class="text-xl sm:text-2xl flex transition-all group-hover:scale-150" :class="style.icon">
-      <i-mdi-check-all v-if="toast.type === `SUCCESS`" />
-      <i-mdi-alert-circle-outline v-else-if="toast.type === `ERROR`" />
-      <i-mdi-dots-horizontal v-else-if="toast.type === `PENDING`" />
-      <i-mdi-checkbox-blank-circle v-else />
-    </span>
-    <span class="max-sm:text-sm"> {{ toast.message }}</span>
+  <div class="flex pointer-events-none">
+    <div
+      class="px-2 py-1.5 sm:px-4 sm:py-3 rounded-full flex gap-2 sm:gap-4 items-center ring-1 sm:ring-2 
+      ring-zinc-500/30 group transition-all hover:scale-95 hover:ring-2 sm:hover:ring-4 
+      pointer-events-auto"
+      :class="`${style.bg} ${toast.clickToClose?`cursor-pointer`:` cursor-default`}`"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+      @click="() => (toast.clickToClose ? dispose() : null)"
+    >
+      <span
+        class="text-xl sm:text-2xl flex transition-all group-hover:scale-125 sm:group-hover:scale-150"
+        :class="style.icon"
+      >
+        <i-mdi-check-all v-if="toast.type === `SUCCESS`" />
+        <i-mdi-alert-circle-outline v-else-if="toast.type === `ERROR`" />
+        <i-mdi-dots-horizontal v-else-if="toast.type === `PENDING`" />
+        <i-mdi-checkbox-blank-circle v-else />
+      </span>
+      <span class="max-sm:text-sm font-medium"> {{ toast.message }}</span>
+    </div>
   </div>
 </template>
