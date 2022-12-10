@@ -112,7 +112,7 @@
                 :value="person"
               >
                 <li
-                  class="flex relative cursor-default select-none max-sm:text-sm px-1 py-2 sm:px-2 sm:py-4 gap-2 sm:gap-4"
+                  class="flex relative cursor-default select-none max-sm:text-sm px-0.5 py-1 sm:px-1 sm:py-2 gap-2 sm:gap-4"
                   :class="{
                     'bg-gray-300/50': selected,
                     '!bg-gray-600 text-white': active,

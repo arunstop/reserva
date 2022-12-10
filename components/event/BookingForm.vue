@@ -1,9 +1,12 @@
 <script setup lang="ts">
+  import { ICartItem } from '~~/composables/storeCart'
   import { IOrder } from '~~/composables/types'
   const props = defineProps<{
-    data: Map<string, IOrder>
+    data: ICartItem
     onClose?: () => void
-    onChange?: (confirm: () => void) => void
+    onChange?: (key :string,cartItem:ICartItem) => void
+    onClear?: () => void
+    formKey:string
   }>()
   const spots: IOrder[] = [
     { id: '1', name: '1 November 2022', qty: 18, stock: 100, price: 100000 },
@@ -42,18 +45,16 @@
     props.data.delete(orderId)
   }
 
-  onMounted(() => {
-    props.onChange?.(() => {
-      console.log(props.data.size)
-    })
-  })
+  // onMounted(() => {
+  //   props.onChange?.(() => {
+  //     console.log(props.data.size)
+  //   })
+  // })
 
   watch(
     () => props.data.entries(),
     (val, prev) => {
-      props.onChange?.(() => {
-        console.log(Array.from(props.data.values()))
-      })
+      props.onChange?.(props.formKey,props.data)
     }
   )
 </script>
@@ -69,13 +70,23 @@
       :spots="spots"
       :selected-spots="selectedSpots"
     />
-    <CommonsButton
-      v-if="selectedSpots.length < spots.length"
-      class="self-start max-sm:w-full"
-      @click="() => addBooking()"
-    >
-      <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
-      <span class="">Add more</span>
-    </CommonsButton>
+    <div class="flex gap-[inherit]">
+      <CommonsButton
+        v-if="selectedSpots.length < spots.length"
+        class="self-start max-sm:w-full"
+        @click="() => addBooking()"
+      >
+        <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
+        <span class="">Add more</span>
+      </CommonsButton>
+      <CommonsButton
+        v-if="!!onClear"
+        class="self-start max-sm:w-full from-pink-500 to-red-500"
+        @click="() => onClear?.()"
+      >
+        <i-mdi-close-bold class="text-lg sm:text-xl hidden sm:block" />
+        <span class="">Remove</span>
+      </CommonsButton>
+    </div>
   </div>
 </template>

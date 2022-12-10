@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { TransitionRoot } from '@headlessui/vue'
-import { ICartItem } from '~~/composables/storeCart'
+  import { ICartItem } from '~~/composables/storeCart'
   import { IOrder, IPost } from '~~/composables/types'
 
   type INetState = 'SUCCESS' | 'ERROR' | 'PENDING' | null
@@ -10,6 +10,8 @@ import { ICartItem } from '~~/composables/storeCart'
     show: boolean
     close: () => void
   }>()
+
+  const route = useRoute()
 
   const bookingList = ref<ICartItem>(
     new Map<string, IOrder>([
@@ -85,7 +87,7 @@ import { ICartItem } from '~~/composables/storeCart'
   }
 
   function addToCart() {
-    // cartAdd(Date.now() + '', bookingList.value)
+    cartAdd(route.params.postid + '', bookingList.value)
     toastAdd({
       title: 'Added to cart',
       message: 'Added to cart',
@@ -111,10 +113,11 @@ import { ICartItem } from '~~/composables/storeCart'
     </template>
     <template #content>
       <EventBookingForm
+        :form-key="`123123`"
         :class="loading ? 'opacity-50' : ''"
         :data="bookingList"
         :on-close="closeModal"
-        :on-change="changeList"
+        :on-change="(v) => changeList(() => {})"
       />
     </template>
     <template #footer>
