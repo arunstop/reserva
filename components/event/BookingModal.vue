@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { TransitionRoot } from '@headlessui/vue'
+import { ICartItem } from '~~/composables/storeCart'
   import { IOrder, IPost } from '~~/composables/types'
 
   type INetState = 'SUCCESS' | 'ERROR' | 'PENDING' | null
@@ -10,7 +11,7 @@
     close: () => void
   }>()
 
-  const bookingList = ref<Map<string, IOrder>>(
+  const bookingList = ref<ICartItem>(
     new Map<string, IOrder>([
       [
         Date.now() + '',
@@ -70,7 +71,7 @@
       message: 'Spot Booked',
       type: 'SUCCESS',
       duration: 3000,
-      clickToClose:true,
+      clickToClose: true,
     })
 
     confirmation.value()
@@ -84,12 +85,13 @@
   }
 
   function addToCart() {
+    // cartAdd(Date.now() + '', bookingList.value)
     toastAdd({
       title: 'Added to cart',
       message: 'Added to cart',
       type: 'SUCCESS',
       duration: 3000,
-      clickToClose:true,  
+      clickToClose: true,
     })
   }
 
@@ -165,7 +167,9 @@
         class="transition-all duration-500 flex flex-col gap-2 sm:gap-4 pointer-events-auto"
       >
         <template v-if="loading === `PENDING`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Loading...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Loading...</span
+          >
           <CommonsButton
             text="Cancel"
             :disabled="!loading"
@@ -173,7 +177,9 @@
           />
         </template>
         <template v-else-if="loading === `SUCCESS`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Success...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Success...</span
+          >
           <CommonsButton
             text="Continue"
             :disabled="!loading"
@@ -181,7 +187,9 @@
           />
         </template>
         <template v-else-if="loading === `ERROR`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Error...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Error...</span
+          >
           <CommonsButton
             text="Try again"
             :disabled="!loading"

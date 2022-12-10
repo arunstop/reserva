@@ -10,6 +10,7 @@
   defineProps<{ post: IPost }>()
   const route = useRoute()
   const user = useUser()
+  const cart = useCart()
 
   const reserveModal = ref('')
 
@@ -62,7 +63,7 @@
       <div class="flex gap-[inherit]">
         <CommonsButton class="flex from-yellow-500 to-red-500">
           <i-mdi-cart class="text-lg sm:text-xl" />
-          <span class="hidden sm:block">Add to cart</span>
+          <span class="hidden sm:block">Add to cart {{cart.size}}</span>
         </CommonsButton>
         <CommonsButton
           class="flex from-pink-500 to-purple-500"

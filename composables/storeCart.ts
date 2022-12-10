@@ -1,10 +1,13 @@
 import { IOrder } from './types'
 
+export type  ICartItem = Map<string,IOrder>
+export type ICartState = Map<string,ICartItem>
+
 export const useCart = () =>
-  useState<Map<string, IOrder>>('cart', () => new Map())
+  useState<ICartState>('cart',()=>new Map ())
   
-export function cartAdd(order: [string, IOrder]) {
-  useCart().value.set(...order)
+export function cartAdd(key:string,newItem :ICartItem) {
+  useCart().value.set(key,newItem)
 }
 
 export function cartRemove(key: string) {
