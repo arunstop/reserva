@@ -83,5 +83,4 @@
     :close="closeModal"
     :post="post"
   />
-  <MainToastContainer />
 </template>

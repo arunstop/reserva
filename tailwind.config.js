@@ -8,7 +8,11 @@ module.exports = {
         './nuxt.config.{js,ts}',
     ],
     theme: {
-        extend: {},
+        extend: {
+            gap:{
+                'i': 'inherit'
+            }
+        },
         fontFamily: {
             righteous: ['Righteous','Inter', 'system-ui', 'sans-serif'],
         },

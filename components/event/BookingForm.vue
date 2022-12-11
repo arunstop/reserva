@@ -7,6 +7,7 @@
     onChange?: (key :string,cartItem:ICartItem) => void
     onClear?: () => void
     formKey:string
+    noButtons?: boolean
   }>()
   const spots: IOrder[] = [
     { id: '1', name: '1 November 2022', qty: 18, stock: 100, price: 100000 },
@@ -70,7 +71,7 @@
       :spots="spots"
       :selected-spots="selectedSpots"
     />
-    <div class="flex gap-[inherit]">
+    <div v-if="!noButtons" class="flex gap-[inherit]">
       <CommonsButton
         v-if="selectedSpots.length < spots.length"
         class="self-start max-sm:w-full"
@@ -88,5 +89,6 @@
         <span class="">Remove</span>
       </CommonsButton>
     </div>
+    <slot name="buttons" :add-booking="addBooking" :maxed="selectedSpots.length < spots.length" />
   </div>
 </template>

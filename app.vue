@@ -20,9 +20,10 @@ useHead(
 // })
 </script>
 <template>
-    <div class="min-h-screen flex flex-col">
-        <NuxtLayout>
-            <NuxtPage />
-        </NuxtLayout>
-    </div>
+  <div class="min-h-screen flex flex-col">
+    <NuxtLayout>
+      <NuxtPage />
+      <MainToastContainer />
+    </NuxtLayout>
+  </div>
 </template>
