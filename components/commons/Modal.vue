@@ -6,11 +6,12 @@
     DialogPanel,
   } from '@headlessui/vue'
 
-  const props = defineProps<{
+  export interface IModalProps{
     show: boolean
     close: () => void
     persistent: boolean
-  }>()
+  }
+  const props = defineProps<IModalProps>()
 </script>
 <template>
   <TransitionRoot appear :show="show" as="template">
@@ -57,7 +58,9 @@
               class="flex min-h-full overflow-hidden sm:rounded-xl max-sm:w-full"
             >
               <DialogPanel
-                class="w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl transform overflow-hidden bg-white text-left shadow-xl transition-all max-h-screen sm:max-h-[90vh] min-h-[60vh] flex sm:rounded-xl max-sm:w-full"
+                class="w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl transform overflow-hidden bg-white text-left 
+                shadow-xl transition-all max-h-screen sm:max-h-[90vh] min-h-[60vh] flex sm:rounded-xl max-sm:w-full"
+                v-bind="$attrs"
               >
                 <div
                   class="flex flex-col gap-2 sm:gap-4 relative overflow-y-auto p-3 sm:p-6 w-full"

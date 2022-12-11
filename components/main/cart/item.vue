@@ -44,7 +44,7 @@
 <template>
   <div
     :id="`cartitem-${key}`"
-    class="flex flex-col p-2 sm:p-4 gap-[inherit] relative  rounded-lg sm:rounded-xl overflow-hidden"
+    class="flex flex-col p-2 sm:p-4 gap-[inherit] relative  rounded-lg sm:rounded-xl overflow-hidden transition-all"
   >
     <img
       class="absolute object-cover  top-0 left-0 w-full h-full blur-md opacity-30 -z-10 transition-all"
@@ -77,7 +77,7 @@
         @clear="() => handleFormClear(key)"
       >
         <template #buttons="{ addBooking, maxed }">
-          <div class="flex max-sm:flex-col gap-[inherit] items-center">
+          <div class="flex max-sm:flex-col gap-[inherit] items-center flex-wrap">
             <CommonsButton
               v-if="maxed"
               class="self-start max-sm:w-full"
@@ -110,7 +110,7 @@
         </template>
       </EventBookingForm>
       <CommonsButton
-        class="max-sm:w-full from-yellow-500 to-green-500 to-green-500"
+        class="max-sm:w-full from-yellow-500 via-green-500 to-green-500"
       >
         <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
         <span class="">Checkout</span>
