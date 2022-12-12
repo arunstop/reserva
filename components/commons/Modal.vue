@@ -6,10 +6,10 @@
     DialogPanel,
   } from '@headlessui/vue'
 
-  export interface IModalProps{
+  export interface IModalProps {
     show: boolean
     close: () => void
-    persistent: boolean
+    persistent?: boolean
   }
   const props = defineProps<IModalProps>()
 </script>
@@ -18,7 +18,7 @@
     <Dialog
       as="div"
       class="relative z-10 group"
-      @close="() => (persistent ? null : close())"
+      @close="() => (!persistent ? close() : null)"
     >
       <TransitionChild
         as="template"
@@ -30,7 +30,7 @@
         leave-to="opacity-0"
       >
         <div
-          class="fixed inset-0 bg-black/50 hidden sm:block peer transition-colors duration-500 ease-out"
+          class="fixed inset-0 bg-black/50 peer transition-colors duration-500 ease-out"
           :class="`${persistent ? 'active:bg-black/75 ' : ''}`"
           :tabindex="0"
         />
@@ -58,8 +58,7 @@
               class="flex min-h-full overflow-hidden sm:rounded-xl max-sm:w-full"
             >
               <DialogPanel
-                class="w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl transform overflow-hidden bg-white text-left 
-                shadow-xl transition-all max-h-screen sm:max-h-[90vh] min-h-[60vh] flex sm:rounded-xl max-sm:w-full"
+                class="w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl transform overflow-hidden bg-white text-left shadow-xl transition-all max-h-screen sm:max-h-[90vh] min-h-[60vh] flex sm:rounded-xl max-sm:w-full"
                 v-bind="$attrs"
               >
                 <div

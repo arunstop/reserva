@@ -1,13 +1,11 @@
 <script lang="ts" setup>
   import { ICartItem } from '~~/composables/storeCart'
 
-  const cart = useCart()
-
-  const route = useRoute()
-  const confirmation = computed(() => route.query?.confirmation)
   definePageMeta({
     layout: 'cart-layout',
   })
+  const cart = useCart()
+
 </script>
 <template>
   <div
@@ -15,5 +13,4 @@
   >
     <MainCartItem v-for="item in cart" :key="item[0]" :data="item" />
   </div>
-  <MainConfirmationModal :show="!!confirmation" :close="() => $router.back()" :persistent="false" />
 </template>
