@@ -12,6 +12,11 @@ export const useConfirmationDialog = () => {
     })
   }
 
+
+  onMounted(()=>{
+    title.value = decodeURIComponent(route.query?.title as string)
+    message.value = decodeURIComponent(route.query?.message as string)
+  })
   watch([() => route.query?.title, () => route.query?.message], (next, old) => {
     if (!next[0] && !next[1]) {
       title.value = decodeURIComponent(old[0] as string)
