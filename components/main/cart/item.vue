@@ -44,12 +44,14 @@
 <template>
   <div
     :id="`cartitem-${key}`"
-    class="flex flex-col p-2 sm:p-4 gap-[inherit] relative  rounded-lg sm:rounded-xl overflow-hidden transition-all"
+    class="flex flex-col p-2 sm:p-4 gap-[inherit] relative   transition-all"
   >
-    <img
-      class="absolute object-cover  top-0 left-0 w-full h-full blur-md opacity-30 -z-10 transition-all"
-      :src="`https://picsum.photos/id/${key}/400/300`"
-    />
+    <div class="absolute flex top-0 left-0 overflow-hidden -z-10  rounded-lg sm:rounded-xl isolate w-full h-full">
+      <img
+        class=" object-cover   w-full h-full  opacity-30 transition-all blur-md"
+        :src="`https://picsum.photos/id/${key}/400/300`"
+      />
+    </div>
     <span v-if="product.pending.value" class="">Loading...</span>
     <div v-else class="flex gap-2 sm:gap-4">
       <figure

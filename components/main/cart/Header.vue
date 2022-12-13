@@ -1,21 +1,43 @@
 <script setup lang="ts">
-  const toasts = useToast()
+  const cart = useCart()
+  const route = useRoute()
+  const modalClear = computed(() => !!route.query?.clearConfirmation)
+  const modalCheckout = computed(() => !!route.query?.checkoutConfirmation)
   function confirmCheckout() {
-    showConfirmationDialog({
-      title: encodeURIComponent('Checkout'),
-      message: encodeURIComponent(
-        'All items about to be checked out.\nAre you sure?'
-      ),
+    useRouter().push({
+      query: {
+        checkoutConfirmation: 'true',
+      },
     })
+    // showConfirmationDialog({
+    //   title: encodeURIComponent('Checkout'),
+    //   message: encodeURIComponent(
+    //     'All items about to be checked out.\nAre you sure?'
+    //   ),
+    // })
   }
 
   function confirmClear() {
-    showConfirmationDialog({
-      title: encodeURIComponent('Clear cart'),
-      message: encodeURIComponent(
-        'Every items in the cart will be deleted.\nAre you sure?'
-      ),
+    useRouter().push({
+      query: {
+        clearConfirmation: 'true',
+      },
     })
+    // showConfirmationDialog({
+    //   title: encodeURIComponent('Clear cart'),
+    //   message: encodeURIComponent(
+    //     'Every items in the cart will be deleted.\nAre you sure?'
+    //   ),
+    // })
+  }
+  
+  function close() {
+    navigateTo(
+      {
+        query: {},
+      },
+      { replace: true }
+    )
   }
 </script>
 <template>
@@ -26,7 +48,7 @@
       <i-mdi-cart class="text-lg sm:text-xl" />
       <span class="text-lg sm:text-xl font-bold">Cart</span>
     </div>
-    <div v-if="!!toasts.size" class="flex gap-[inherit]">
+    <div class="flex gap-[inherit]">
       <CommonsButton
         class="flex from-purple-500 to-red-500"
         @click="() => confirmClear()"
@@ -43,4 +65,16 @@
       </CommonsButton>
     </div>
   </nav>
+  <LazyMainConfirmationModal
+    :show="modalClear"
+    title="Clear cart"
+    :message="'Every items in the cart will be deleted.\nAre you sure?'"
+    :close="close"
+  />
+  <LazyMainConfirmationModal
+    :show="modalCheckout"
+    title="Checkout"
+    :message="'All items about to be checked out.\nAre you sure?'"
+    :close="close"
+  />
 </template>

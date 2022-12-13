@@ -94,6 +94,10 @@
       type: 'SUCCESS',
       duration: 3000,
       clickToClose: true,
+      action: {
+        label: 'Go to cart',
+        action: () => navigateTo(`/cart/#cartitem-${props.post.id}`),
+      },
     })
   }
 
@@ -170,7 +174,9 @@
         class="transition-all duration-500 flex flex-col gap-2 sm:gap-4 pointer-events-auto"
       >
         <template v-if="loading === `PENDING`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Loading...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Loading...</span
+          >
           <CommonsButton
             text="Cancel"
             :disabled="!loading"
@@ -178,7 +184,9 @@
           />
         </template>
         <template v-else-if="loading === `SUCCESS`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Success...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Success...</span
+          >
           <CommonsButton
             text="Continue"
             :disabled="!loading"
@@ -186,7 +194,9 @@
           />
         </template>
         <template v-else-if="loading === `ERROR`">
-          <span class="text-white text-base sm:text-xl font-bold text-center">Error...</span>
+          <span class="text-white text-base sm:text-xl font-bold text-center"
+            >Error...</span
+          >
           <CommonsButton
             text="Try again"
             :disabled="!loading"
