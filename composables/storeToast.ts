@@ -4,7 +4,11 @@ export interface IToast {
   message: string
   type: 'SUCCESS' | 'ERROR' | 'INFO' | 'PENDING' | null
   duration?: number
-  clickToClose?:boolean
+  clickToClose?: boolean
+  action?: {
+    action: () => void
+    label: string
+  }
 }
 
 export const useToast = () =>
