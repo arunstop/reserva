@@ -18,12 +18,12 @@
           id="confirmation-modal-content"
           class="flex flex-col items-center gap-[inherit]"
         >
-          <span class="font-bold text-xl sm:text-2xl">{{
+          <span class="font-bold text-xl sm:text-2xl capitalize">{{
             title
           }}</span>
 
           <!-- only render message once because it depends on route query -->
-          <span>{{ message }}</span>
+          <span class="whitespace-pre-line text-sm sm:text-base">{{ message }}</span>
         </div>
         <div class="flex flex-col gap-[inherit] sm:justify-end">
           <CommonsButton

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  const router = useRouter()
+  const toasts = useToast()
   function confirmCheckout() {
     showConfirmationDialog({
       title: encodeURIComponent('Checkout'),
       message: encodeURIComponent(
-        'Every items in the cart will be deleted. Are you sure?'
+        'All items about to be checked out.\nAre you sure?'
       ),
     })
   }
@@ -13,7 +13,7 @@
     showConfirmationDialog({
       title: encodeURIComponent('Clear cart'),
       message: encodeURIComponent(
-        'All items about to be checked out. Are you sure?'
+        'Every items in the cart will be deleted.\nAre you sure?'
       ),
     })
   }
@@ -26,7 +26,7 @@
       <i-mdi-cart class="text-lg sm:text-xl" />
       <span class="text-lg sm:text-xl font-bold">Cart</span>
     </div>
-    <div class="flex gap-[inherit]">
+    <div v-if="!!toasts.size" class="flex gap-[inherit]">
       <CommonsButton
         class="flex from-purple-500 to-red-500"
         @click="() => confirmClear()"

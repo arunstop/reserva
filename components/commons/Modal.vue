@@ -32,7 +32,6 @@
         <div
           class="fixed inset-0 bg-black/50 peer transition-colors duration-500 ease-out"
           :class="`${persistent ? 'active:bg-black/75 ' : ''}`"
-          :tabindex="0"
         />
       </TransitionChild>
 
