@@ -1,8 +1,23 @@
 <script setup lang="ts">
   const cart = useCart()
   const route = useRoute()
-  const modalClear = computed(() => !!route.query?.clearConfirmation)
-  const modalCheckout = computed(() => !!route.query?.checkoutConfirmation)
+  const modalClear = ref(false)
+  const modalCheckout = ref(false)
+
+  onMounted(() => {
+    modalClear.value = !!route.query.clearConfirmation
+    modalCheckout.value = !!route.query.checkoutConfirmation
+  })
+  watch(
+    [
+      () => !!route.query.clearConfirmation,
+      () => !!route.query.checkoutConfirmation,
+    ],
+    (next, old) => {
+      modalClear.value = next[0]
+      modalCheckout.value = next[1]
+    }
+  )
   function confirmCheckout() {
     useRouter().push({
       query: {
@@ -30,8 +45,8 @@
     //   ),
     // })
   }
-  
-  function close() {
+
+  function closeModal() {
     navigateTo(
       {
         query: {},
@@ -48,7 +63,7 @@
       <i-mdi-cart class="text-lg sm:text-xl" />
       <span class="text-lg sm:text-xl font-bold">Cart</span>
     </div>
-    <div class="flex gap-[inherit]">
+    <div  class="flex gap-[inherit]">
       <CommonsButton
         class="flex from-purple-500 to-red-500"
         @click="() => confirmClear()"
@@ -67,14 +82,20 @@
   </nav>
   <LazyMainConfirmationModal
     :show="modalClear"
-    title="Clear cart"
+    header="Clear cart"
     :message="'Every items in the cart will be deleted.\nAre you sure?'"
-    :close="close"
+    :close="closeModal"
+    @ok="
+      (close) => {
+        cartClear()
+        close?.()
+      }
+    "
   />
   <LazyMainConfirmationModal
     :show="modalCheckout"
-    title="Checkout"
+    header="Checkout"
     :message="'All items about to be checked out.\nAre you sure?'"
-    :close="close"
+    :close="closeModal"
   />
 </template>

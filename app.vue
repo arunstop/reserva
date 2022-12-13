@@ -25,9 +25,6 @@
     <NuxtLayout>
       <NuxtPage />
       <MainToastContainer />
-      <ClientOnly>
-        <LazyMainConfirmationModal />
-      </ClientOnly>
     </NuxtLayout>
   </div>
 </template>
