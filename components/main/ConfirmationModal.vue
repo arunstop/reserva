@@ -45,7 +45,7 @@
             <span class="">{{ label.ok }}</span>
           </CommonsButton>
           <CommonsButton
-            class="flex from-zinc-300 to-zinc-500 h-fit"
+            class="flex  h-fit"
             @click="close"
           >
             <i-mdi-close-bold class="text-lg sm:text-xl max-sm:hidden" />

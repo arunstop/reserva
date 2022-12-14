@@ -7,7 +7,6 @@
   const route = useRoute()
   const keyword = ref((route.query.search as string) || '')
   const filteredPosts = computed(() => {
-    console.log(keyword)
     return !keyword || !posts.value?.length
       ? posts.value
       : posts.value.filter((e) => e.title.includes(keyword.value))
@@ -30,7 +29,9 @@
     <div
       class="flex flex-col rounded-xl w-full place-self-stretch p-4 sm:p-8 max-w-7xl"
     >
-      <div v-if="!posts || !posts.length">Data is non-existent</div>
+      <div v-if="!posts || !posts.length">
+        Data is non-existent
+      </div>
       <div
         v-else
         class="gap-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"

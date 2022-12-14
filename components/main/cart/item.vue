@@ -32,13 +32,13 @@
   }
 
   function handleFormClear(key: string) {
+    cartRemove(key)
     toastAdd({
       title: 'Item removed from cart',
       message: 'Item removed from cart',
       type: 'SUCCESS',
       clickToClose: true,
     })
-    // cartRemove(key)
   }
 </script>
 <template>

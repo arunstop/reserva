@@ -14,7 +14,7 @@
 
   const reserveModal = ref('')
 
-  function reserve() {
+  function openBookingModal() {
     navigateTo({
       query: {
         reserving: 123,
@@ -61,15 +61,13 @@
         </CommonsChip>
       </div>
       <div class="flex gap-[inherit]">
-        <NuxtLink :to="`/cart`">
-          <CommonsButton class="flex from-yellow-500 to-red-500">
-            <i-mdi-cart class="text-lg sm:text-xl" />
-            <span class="hidden sm:block">Add to cart {{ cart.size }}</span>
-          </CommonsButton>
-        </NuxtLink>
+        <CommonsButton class="flex from-yellow-500 to-red-500" @click="openBookingModal">
+          <i-mdi-cart class="text-lg sm:text-xl" />
+          <span class="hidden sm:block">Add to cart</span>
+        </CommonsButton>
         <CommonsButton
           class="flex from-pink-500 to-purple-500"
-          @click="reserve"
+          @click="openBookingModal"
         >
           <i-mdi-check-bold class="text-lg sm:text-xl" />
           <span class="hidden sm:block">Reserve</span>
