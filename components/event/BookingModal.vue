@@ -13,20 +13,7 @@
 
   const route = useRoute()
 
-  const bookingList = ref<ICartItem>(
-    new Map<string, IOrder>([
-      [
-        Date.now() + '',
-        {
-          id: Date.now() + '',
-          name: '1 November 2022',
-          qty: 1,
-          stock: 1,
-          price: 100000,
-        },
-      ],
-    ])
-  )
+  const bookingList = ref<ICartItem>(new Map())
 
   const totalPrice = computed(() => {
     return Array.from(bookingList.value.values()).reduce(
@@ -34,6 +21,14 @@
       0
     )
   })
+
+  const spots = ref<IOrder[]>([
+    { id: '1', name: '1 November 2022', qty: 18, stock: 100, price: 100000 },
+    { id: '2', name: '2 November 2022', qty: 28, stock: 100, price: 100000 },
+    { id: '3', name: '3 November 2022', qty: 17, stock: 100, price: 100000 },
+    { id: '4', name: '4 November 2022', qty: 88, stock: 100, price: 100000 },
+    { id: '5', name: '5 November 2022', qty: 16, stock: 100, price: 100000 },
+  ])
 
   const confirmation = ref<() => void>(() => null)
   const loading = ref<INetState>()
@@ -105,6 +100,12 @@
     () => props.show,
     (val, prev) => {
       if (!val) return (loading.value = null)
+      // set the initial value of booking list from cart if exists
+      const cartItem = cartGet(props.post.id + '')
+      // set it from the first child of the spots if it doesn't
+      if (!cartItem)
+        return bookingList.value.set(spots.value[0].id, {...spots.value[0],qty:1})
+      bookingList.value = cartItem
     }
   )
 </script>
@@ -122,6 +123,7 @@
         :data="bookingList"
         :on-close="closeModal"
         :on-change="(v) => changeList(() => {})"
+        :spots="spots"
       />
     </template>
     <template #footer>

@@ -16,3 +16,7 @@ export function cartRemove(key: string) {
 export function cartClear() {
   useCart().value.clear()
 }
+
+export function cartGet(key: string) {
+  return useCart().value.get(key)
+}

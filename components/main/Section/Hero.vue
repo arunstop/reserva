@@ -31,10 +31,11 @@
           v-model="keyword"
           :placeholder="'Reservation for restaurant opening'"
           type="search"
+          class="w-full "
         >
           <template #lead>
             <span
-              class="text-orange-500 text-xl sm:text-3xl m-2 w-full sm:w-[20rem] peer-focus:scale-110"
+              class="text-orange-500 text-xl sm:text-3xl m-2 peer-focus:scale-110"
             >
               <i-mdi-search />
             </span>

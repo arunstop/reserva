@@ -8,14 +8,9 @@
     onClear?: () => void
     formKey:string
     noButtons?: boolean
+    spots:IOrder[]
   }>()
-  const spots: IOrder[] = [
-    { id: '1', name: '1 November 2022', qty: 18, stock: 100, price: 100000 },
-    { id: '2', name: '2 November 2022', qty: 28, stock: 100, price: 100000 },
-    { id: '3', name: '3 November 2022', qty: 17, stock: 100, price: 100000 },
-    { id: '4', name: '4 November 2022', qty: 88, stock: 100, price: 100000 },
-    { id: '5', name: '5 November 2022', qty: 16, stock: 100, price: 100000 },
-  ]
+  
 
   const selectedSpots = computed(() =>
     Array.from(props.data.values()).map((f) => f.name)
@@ -24,7 +19,7 @@
   function addBooking(order?: IOrder) {
     if (!order) {
       // get spots without the current ones that already updated
-      const newBooking = spots.filter(
+      const newBooking = props.spots.filter(
         (e) => !selectedSpots.value.includes(e.name)
       )?.[0]
       if (!newBooking) return

@@ -1,7 +1,15 @@
 <script lang="ts" setup>
   import { ICartItem } from '~~/composables/storeCart'
-  import { IPost } from '~~/composables/types'
+  import { IOrder, IPost } from '~~/composables/types'
+  import { IConfirmationModalProps } from '../ConfirmationModal.vue'
 
+  const spots = ref<IOrder[]>([
+    { id: '1', name: '1 November 2022', qty: 18, stock: 100, price: 100000 },
+    { id: '2', name: '2 November 2022', qty: 28, stock: 100, price: 100000 },
+    { id: '3', name: '3 November 2022', qty: 17, stock: 100, price: 100000 },
+    { id: '4', name: '4 November 2022', qty: 88, stock: 100, price: 100000 },
+    { id: '5', name: '5 November 2022', qty: 16, stock: 100, price: 100000 },
+  ])
   const props = defineProps<{ data: [string, ICartItem] }>()
   const key = props.data[0]
   const value = props.data[1]
@@ -27,28 +35,44 @@
     }
   })
 
+  const modalDelete = computed(() => !!useRoute().query.deleteConfirmation)
+  const modalDeleteResolve = ref<() => void>(() => null)
+
   function handleFormChange(key: string, item: ICartItem) {
     cartAdd(key, item)
   }
 
   function handleFormClear(key: string) {
-    cartRemove(key)
-    toastAdd({
-      title: 'Item removed from cart',
-      message: 'Item removed from cart',
-      type: 'SUCCESS',
-      clickToClose: true,
+    navigateTo({
+      query: {
+        deleteConfirmation: 'true',
+      },
     })
+    modalDeleteResolve.value = () => {
+      cartRemove(key)
+      toastAdd({
+        title: 'Item removed from cart',
+        message: 'Item removed from cart',
+        type: 'SUCCESS',
+        clickToClose: true,
+      })
+    }
+  }
+
+  function closeModalDelete(){
+    navigateTo({query:{}})
   }
 </script>
 <template>
   <div
     :id="`cartitem-${key}`"
-    class="flex flex-col p-2 sm:p-4 gap-[inherit] relative   transition-all"
+    class="flex flex-col p-2 sm:p-4 gap-[inherit] relative transition-all"
   >
-    <div class="absolute flex top-0 left-0 overflow-hidden -z-10  rounded-lg sm:rounded-xl isolate w-full h-full">
+    <div
+      class="absolute flex top-0 left-0 overflow-hidden -z-10 rounded-lg sm:rounded-xl isolate w-full h-full"
+    >
       <img
-        class=" object-cover   w-full h-full  opacity-30 transition-all blur-md"
+        class="object-cover w-full h-full opacity-30 transition-all blur-md"
         :src="`https://picsum.photos/id/${key}/400/300`"
       />
     </div>
@@ -65,9 +89,14 @@
       <div class="grid grid-cols-2">
         <span
           class="text-lg sm:text-xl first-letter:capitalize font-medium col-span-2"
-        >{{ header.text }}</span>
-        <span class="max-sm:text-sm first-letter:capitalize font-medium">{{ header.slots }} slots</span>
-        <span class="max-sm:text-sm first-letter:capitalize font-medium">{{ header.ticktets }} tickets</span>
+          >{{ header.text }}</span
+        >
+        <span class="max-sm:text-sm first-letter:capitalize font-medium"
+          >{{ header.slots }} slots</span
+        >
+        <span class="max-sm:text-sm first-letter:capitalize font-medium"
+          >{{ header.ticktets }} tickets</span
+        >
       </div>
     </div>
     <div class="flex flex-col relative gap-[inherit]">
@@ -76,10 +105,13 @@
         :form-key="key"
         :on-change="handleFormChange"
         :no-buttons="true"
+        :spots="spots"
         @clear="() => handleFormClear(key)"
       >
         <template #buttons="{ addBooking, maxed }">
-          <div class="flex max-sm:flex-col gap-[inherit] items-center flex-wrap">
+          <div
+            class="flex max-sm:flex-col gap-[inherit] items-center flex-wrap"
+          >
             <CommonsButton
               v-if="maxed"
               class="self-start max-sm:w-full"
@@ -119,4 +151,12 @@
       </CommonsButton>
     </div>
   </div>
+
+  <LazyMainConfirmationModal
+    :show="modalDelete"
+    :header="`Remove item`"
+    :message="`This item will be removed from the cart.\nAre you sure?`"
+    :close="closeModalDelete"
+    @ok="modalDeleteResolve"
+  />
 </template>

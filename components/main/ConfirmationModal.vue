@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  const props = defineProps<{
+  export interface IConfirmationModalProps {
     show: boolean
     header: string
     message: string
@@ -7,7 +7,8 @@
     labelOk?: string
     labelCancel?: string
     onOk?: (close?: () => void) => void
-  }>()
+  }
+  const props = defineProps<IConfirmationModalProps>()
   const label = computed(() => ({
     ok: !!props.labelOk?.trim() ? props.labelOk : 'Ok',
     cancel: !!props.labelCancel?.trim() ? props.labelCancel : 'Cancel',
@@ -44,10 +45,7 @@
             <i-mdi-check-bold class="text-lg sm:text-xl max-sm:hidden" />
             <span class="">{{ label.ok }}</span>
           </CommonsButton>
-          <CommonsButton
-            class="flex  h-fit"
-            @click="close"
-          >
+          <CommonsButton class="flex h-fit" @click="close">
             <i-mdi-close-bold class="text-lg sm:text-xl max-sm:hidden" />
             <span class="">{{ label.cancel }}</span>
           </CommonsButton>
