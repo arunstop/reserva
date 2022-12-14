@@ -10,7 +10,7 @@ import { Dialog } from '@headlessui/vue'
     <TransitionGroup
       tag="div"
       class="flex flex-col justify-end items-center sm:items-start p-2 sm:p-4 pointer-events-none
-       gap-2 sm:gap-4 w-full"
+       gap-1 sm:gap-2 w-full"
       move-class="transition-all duration-200 "
       enter-active-class="transition-all duration-500 ease-out"
       enter-from-class="opacity-0 scale-50 translate-y-[100%]"

@@ -34,23 +34,27 @@
     switch (toast.type) {
       case 'SUCCESS':
         return {
-          bg: 'bg-green-200/90 hover:bg-green-400',
+          bg: 'bg-green-100/90 hover:bg-green-300',
           icon: 'text-green-500 group-hover:text-green-900',
+          btn: 'bg-green-600/50 text-green-900',
         }
       case 'ERROR':
         return {
-          bg: 'bg-red-200/90 hover:bg-red-400',
+          bg: 'bg-red-100/90 hover:bg-red-300',
           icon: 'text-red-500 group-hover:text-red-900',
+          btn: 'bg-red-600/50 text-red-900',
         }
       case 'PENDING':
         return {
-          bg: 'bg-zinc-200/90 hover:bg-zinc-400',
+          bg: 'bg-zinc-100/90 hover:bg-zinc-300',
           icon: 'text-zinc-500 group-hover:text-zinc-900',
+          btn: 'bg-zinc-600/50 text-zinc-900',
         }
       default:
         return {
-          bg: 'bg-zinc-200/90 hover:bg-zinc-400',
+          bg: 'bg-zinc-100/90 hover:bg-zinc-300',
           icon: 'text-zinc-500 group-hover:text-zinc-900',
+          btn: 'bg-zinc-600/50 text-zinc-900',
         }
     }
   }
@@ -59,16 +63,25 @@
 <template>
   <div class="flex pointer-events-none">
     <div
-      class="px-2 py-1.5 sm:px-4 sm:py-3 rounded-full flex gap-2 sm:gap-4 items-center ring-1 sm:ring-2 ring-zinc-500/30 group transition-all hover:scale-95 hover:ring-2 sm:hover:ring-4 pointer-events-auto"
-      :class="`${style.bg} ${
-        toast.clickToClose ? `cursor-pointer` : ` cursor-default`
-      }`"
+      class="rounded-full flex  children:p-1.5 sm:children:p-2  items-center 
+      ring-1 sm:ring-2 overflow-hidden ring-zinc-500/30 group transition-all hover:scale-95 hover:ring-2 
+      sm:hover:ring-4 pointer-events-auto h-[2.5rem] sm:h-[3.25rem]"
+      :class="[
+        {
+          'cursor-pointer': toast.clickToClose,
+          'p-0.5 sm:p-1' : !toast.action,
+          'pl-1 sm:pl-2' : toast.action
+        },
+        style.bg
+      ]"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
-      @click="() => {
-        if(!!toast.action) toast.action.action()
-        if(!!toast.clickToClose) dispose()
-      }"
+      @click="
+        () => {
+          if (!!toast.action) toast.action.action()
+          if (!!toast.clickToClose) dispose()
+        }
+      "
     >
       <span
         class="text-xl sm:text-2xl flex transition-all group-hover:scale-125 sm:group-hover:scale-150"
@@ -80,10 +93,17 @@
         <i-mdi-checkbox-blank-circle v-else />
       </span>
       <span class="max-sm:text-sm font-medium"> {{ toast.message }}</span>
-      <div v-if="!!toast.action">
-        <CommonsTextGradient class="font-bold from-black to-gray-500 hover:">
+
+      <div
+        v-if="!!toast.action"
+        class="flex items-center rounded-full m-1 sm:m-1.5 group-hover:scale-[1.15] group-hover:h-full transition-all"
+        :class="style.btn"
+      >
+        <span
+          class="font-bold  max-sm:text-sm mx-1 sm:mx-2  transition-all"
+        >
           {{ toast.action.label }}
-        </CommonsTextGradient>
+        </span>
       </div>
     </div>
   </div>
