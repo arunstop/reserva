@@ -12,6 +12,9 @@ module.exports = {
       gap: {
         i: 'inherit',
       },
+      rotate:{
+        '360' : '360deg'
+      },
     },
     fontFamily: {
       righteous: ['Righteous', 'Inter', 'system-ui', 'sans-serif'],

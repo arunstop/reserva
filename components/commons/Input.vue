@@ -7,7 +7,7 @@
   }
 </script>
 <template>
-  <div class="flex rounded-xl isolate bg-zinc-100">
+  <div class="flex rounded-xl isolate bg-zinc-100 group overflow-hidden">
     <slot name="lead" />
     <input
       class="min-h-[1.5rem] sm:min-h-[3rem] py-1 px-1.5 sm:py-2 sm:px-3 first:rounded-l-xl only:rounded-xl 
