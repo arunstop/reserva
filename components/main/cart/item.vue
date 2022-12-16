@@ -62,6 +62,15 @@
   function closeModalDelete(){
     navigateTo({query:{}})
   }
+
+  function checkout(){
+    navigateTo({
+      path:'/checkout',
+      query:{
+        items:[props.data[0]]
+      }
+    })
+  }
 </script>
 <template>
   <div
@@ -79,7 +88,7 @@
     <span v-if="product.pending.value" class="">Loading...</span>
     <div v-else class="flex gap-2 sm:gap-4">
       <figure
-        class="text-lg sm:text-xl first-letter:capitalize font-medium flex-none"
+        class="text-lg sm:text-xl flex-none"
       >
         <img
           :src="`https://picsum.photos/id/${key}/400/300`"
@@ -145,6 +154,7 @@
       </EventBookingForm>
       <CommonsButton
         class="max-sm:w-full from-yellow-500 via-green-500 to-green-500"
+        @click="checkout"
       >
         <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
         <span class="">Checkout</span>

@@ -14,11 +14,12 @@ export interface IToast {
 export const useToast = () =>
   useState<Map<string, IToast>>('toast', () => new Map([]))
 
-export const toastAdd = (toast: Omit<IToast, 'id'>) => {
-  useToast().value.set(Date.now() + '', {
-    id: Date.now() + '',
+export const toastAdd = (toast: Omit<IToast, 'id'> & { id?: string }) => {
+  const id = toast.id || Date.now() + ''
+  useToast().value.set(id, {
+    clickToClose: true,
     ...toast,
-    clickToClose:toast.clickToClose || true,
+    id: id,
     duration: toast.duration || 2500,
   })
 }
