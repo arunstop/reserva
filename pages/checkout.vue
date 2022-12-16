@@ -135,13 +135,20 @@
         </div>
       </div>
 
-      <div class="w-full sm:max-w-[80%]">
+      <div class="grid gap-2 sm:gap-4 w-full sm:max-w-[80%]">
         <CommonsButton
           class="w-full from-green-300 via-green-500 to-green-300"
           @click="confirmPayment"
         >
           Pay
         </CommonsButton>
+        <NuxtLink :to="`/cart/#cartitem-${data?.id}`">
+            <CommonsButton
+          class="w-full"
+        >
+          Cancel
+        </CommonsButton>
+        </NuxtLink>
       </div>
     </div>
   </div>
