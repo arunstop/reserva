@@ -9,12 +9,12 @@
     TransitionRoot,
   } from '@headlessui/vue'
   const props = defineProps<{
-    booking: [string,IOrder]
+    booking: [string, IOrder]
     spots: IOrder[]
     selectedSpots: string[]
     closeable?: boolean
     onRemove?: () => void
-    onUpdate: (booking: [string,IOrder]) => void
+    onUpdate: (booking: [string, IOrder]) => void
   }>()
   // const { initalSpots, booking, selectedSpots, onUpdate, closeable, onRemove }=props
 
@@ -25,7 +25,8 @@
   const unSpots = computed(() =>
     props.spots.filter((e) => {
       // unselectedSpots
-      if(props.selectedSpots.length ===1 || spot.value.name===e.name)return true
+      if (props.selectedSpots.length === 1 || spot.value.name === e.name)
+        return true
       return !props.selectedSpots.includes(e.name)
     })
   )
@@ -41,8 +42,14 @@
   //   onUpdate({ ...newOrder, id: order.id ,qty:qty.value})
   // }
 
+  function handleBlur(event: Event) {
+    const v = parseInt((event.target as HTMLInputElement).value || '0')
+    if (!v) return (qty.value = 1)
+    if (v > props.booking[1].qty) return (qty.value = 1)
+  }
+
   function changeQty(n: number) {
-    if(!n) qty.value=1
+    if (!n) qty.value = 1
     // can't be less than 0
     if (n < 0 && qty.value <= 1) return
     // can't be less than 20
@@ -55,7 +62,10 @@
     [() => spot.value, () => qty.value],
     ([newValue, newQty], [prevVal, prevQty]) => {
       if (newValue === prevVal && newQty === prevQty) return
-      props.onUpdate([props.booking[0],{ ...newValue,qty:newQty,edited:true}])
+      props.onUpdate([
+        props.booking[0],
+        { ...newValue, qty: newQty, edited: true },
+      ])
     }
   )
 
@@ -122,7 +132,7 @@
                   <i-mdi-check
                     class="text-lg sm:text-xl"
                     :class="{
-                      'opacity-0':!selected
+                      'opacity-0': !selected,
                     }"
                   />
                   <span
@@ -143,14 +153,14 @@
     </div>
     <div class="flex gap-[inherit]">
       <CommonsInput
-        v-model="qty"
+        v-model.number="qty"
         class="w-full h-auto"
         type="number"
         min="1"
         max="10"
         placeholder="Amount"
         required
-        @blur="changeQty(0)"
+        @blur="handleBlur"
       >
         <template #lead>
           <CommonsButton
@@ -170,7 +180,7 @@
         </template>
       </CommonsInput>
       <CommonsButton
-        class="text-red-500 text-xl sm:text-2xl bg-none w-full flex-1"
+        class="!text-red-500 text-xl sm:text-2xl bg-none w-full flex-1"
         :class="``"
         :disabled="closeable"
         @click="onRemove?.()"

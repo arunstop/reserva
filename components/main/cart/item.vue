@@ -25,7 +25,7 @@
   )
   const header = computed(() => {
     const totalSpots = Array.from(props.data[1].values()).reduce(
-      (acc, e) => acc + e.qty,
+      (acc, e) => acc + (e.qty*1),
       0
     )
     return {

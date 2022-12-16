@@ -18,6 +18,7 @@ export const toastAdd = (toast: Omit<IToast, 'id'>) => {
   useToast().value.set(Date.now() + '', {
     id: Date.now() + '',
     ...toast,
+    clickToClose:toast.clickToClose || true,
     duration: toast.duration || 2500,
   })
 }
