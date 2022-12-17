@@ -18,7 +18,7 @@
   function getDetails(values: IOrder[]) {
     const totalSpots = values.reduce((acc, e) => acc + e.qty * 1, 0)
     return {
-      tickets: `${totalSpots > 1 ? `${totalSpots}` : ``}`,
+      tickets: `${totalSpots >   0 ? `${totalSpots}` : ``}`,
       slots: `${values.length}`,
       totalPrice: values.reduce((acc, e) => acc + e.price * e.qty, 0),
     }
@@ -33,11 +33,12 @@
     const id = Date.now() + ''
     toastAdd({
       id: id,
-      title: 'Proceessing payment...',
-      message: 'Proceessing payment...',
+      title: 'Processing payment...',
+      message: 'Processing payment...',
       type: 'PENDING',
-      clickToClose: true,
-      duration: 5000,
+      clickToClose: false,
+      duration:-1,
+      noHover:true,
     })
     const ds = await new Promise<number>((resolve, reject) => {
       setTimeout(() => {
@@ -45,9 +46,8 @@
         resolve(123)
       }, 3000)
     })
-    
+
     toastAdd({
-        id:'123123',
       title: 'Payment success!',
       message: 'Payment success!',
       type: 'SUCCESS',
@@ -143,11 +143,7 @@
           Pay
         </CommonsButton>
         <NuxtLink :to="`/cart/#cartitem-${data?.id}`">
-            <CommonsButton
-          class="w-full"
-        >
-          Cancel
-        </CommonsButton>
+          <CommonsButton class="w-full"> Cancel </CommonsButton>
         </NuxtLink>
       </div>
     </div>

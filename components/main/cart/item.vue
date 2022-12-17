@@ -25,12 +25,12 @@
   )
   const header = computed(() => {
     const totalSpots = Array.from(props.data[1].values()).reduce(
-      (acc, e) => acc + (e.qty*1),
+      (acc, e) => acc + e.qty * 1,
       0
     )
     return {
       text: `${product.data.value?.title}`,
-      ticktets: `${totalSpots > 1 ? `${totalSpots}` : ``}`,
+      ticktets: `${totalSpots > 0 ? `${totalSpots}` : ``}`,
       slots: `${props.data[1].size}`,
     }
   })
@@ -59,16 +59,16 @@
     }
   }
 
-  function closeModalDelete(){
-    navigateTo({query:{}})
+  function closeModalDelete() {
+    navigateTo({ query: {} })
   }
 
-  function checkout(){
+  function checkout() {
     navigateTo({
-      path:'/checkout',
-      query:{
-        items:[props.data[0]]
-      }
+      path: '/checkout',
+      query: {
+        items: [props.data[0]],
+      },
     })
   }
 </script>
@@ -87,9 +87,7 @@
     </div>
     <span v-if="product.pending.value" class="">Loading...</span>
     <div v-else class="flex gap-2 sm:gap-4">
-      <figure
-        class="text-lg sm:text-xl flex-none"
-      >
+      <figure class="text-lg sm:text-xl flex-none">
         <img
           :src="`https://picsum.photos/id/${key}/400/300`"
           class="h-16 w-16 sm:h-24 sm:w-24 rounded-lg sm:rounded-xl"

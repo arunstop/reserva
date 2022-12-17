@@ -9,6 +9,7 @@ export interface IToast {
     action: () => void
     label: string
   }
+  noHover?:boolean
 }
 
 export const useToast = () =>
