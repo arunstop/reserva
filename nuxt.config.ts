@@ -17,6 +17,7 @@ export default defineNuxtConfig({
                 /* options */
             },
         ],
+        '@vueuse/nuxt',
     ],
     tailwindcss: {
         cssPath: '~/assets/css/tailwind.css',
