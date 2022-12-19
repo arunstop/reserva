@@ -3,8 +3,8 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - init: npm install && npm run build
-    command: npm run dev
+  - init: npx install
+    command: npx nuxi dev -p 4321
 
 # Ports to expose on workspace startup
 ports:
