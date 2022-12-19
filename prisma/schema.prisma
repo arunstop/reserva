@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,15 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Profile {
-  id     String  @id @default(uuid()) @db.Uuid
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId String  @unique
-}
-
 model User {
-  id          String    @id @default(uuid()) @db.Uuid
+  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   password    String    @db.VarChar(30)
   email       String    @unique
   name        String
@@ -26,26 +16,33 @@ model User {
   role        Role      @default(USER)
   dateDeleted DateTime?
   dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @updatedAt
-  vendors     Vendor[]
-  profile     Profile?
-  Event       Event[]
+  dateUpdated DateTime  @updatedAt @default(now())
   booking     Booking[]
+  Event       Event[]
+  profile     Profile?
+  vendors     Vendor[]
+}
+
+model Profile {
+  id     String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  bio    String?
+  userId String  @unique @db.Uuid
+  user   User    @relation(fields: [userId], references: [id])
 }
 
 model Vendor {
-  id          String    @id @default(uuid()) @db.Uuid
+  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name        String    @db.VarChar(100)
   address     String
   dateDeleted DateTime?
   dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @updatedAt
+  dateUpdated DateTime  @updatedAt @default(now())
+  ownerId     String    @db.Uuid
   owner       User      @relation(fields: [ownerId], references: [id])
-  ownerId     String
 }
 
 model Event {
-  id          String     @id @default(uuid()) @db.Uuid
+  id          String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   title       String     @unique
   type        String
   address     String
@@ -53,18 +50,18 @@ model Event {
   dateEnd     String
   desc        String     @db.VarChar(1000)
   thumbnail   String
-  tickets     Ticket[]
   dateDeleted DateTime?
   dateCreated DateTime   @default(now())
-  dateUpdated DateTime   @updatedAt
-  user        User       @relation(fields: [userId], references: [id])
-  userId      String
+  dateUpdated DateTime   @updatedAt @default(now())
+  userId      String     @db.Uuid
   booking     Booking[]
   discount    Discount[]
+  user        User       @relation(fields: [userId], references: [id])
+  tickets     Ticket[]
 }
 
 model Ticket {
-  id          String           @id @default(uuid()) @db.Uuid
+  id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name        String           @db.VarChar(50)
   max         Int
   price       Int
@@ -72,41 +69,41 @@ model Ticket {
   dateEnd     DateTime?
   dateDeleted DateTime?
   dateCreated DateTime         @default(now())
-  dateUpdated DateTime         @updatedAt
+  dateUpdated DateTime         @updatedAt @default(now())
+  eventId     String           @db.Uuid
   booking     BookingDetails[]
   event       Event            @relation(fields: [eventId], references: [id])
-  eventId     String
 }
 
 model Booking {
-  id          String           @id @default(uuid()) @db.Uuid
+  id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   qr          String
   dateDeleted DateTime?
   dateCreated DateTime         @default(now())
-  dateUpdated DateTime         @updatedAt
+  dateUpdated DateTime         @updatedAt @default(now())
   type        String
-  payments    Payment[]
-  details     BookingDetails[]
-  user        User             @relation(fields: [userId], references: [id])
-  userId      String
+  userId      String           @db.Uuid
+  eventId     String           @db.Uuid
   event       Event            @relation(fields: [eventId], references: [id])
-  eventId     String
+  user        User             @relation(fields: [userId], references: [id])
+  details     BookingDetails[]
+  payments    Payment[]
 }
 
 model BookingDetails {
-  id          String    @id @default(uuid()) @db.Uuid
+  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   qty         Int
   dateDeleted DateTime?
   dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @updatedAt
+  dateUpdated DateTime  @updatedAt @default(now())
+  bookingId   String    @db.Uuid
+  ticketId    String    @db.Uuid
   booking     Booking   @relation(fields: [bookingId], references: [id])
-  bookingId   String
   ticket      Ticket    @relation(fields: [ticketId], references: [id])
-  ticketId    String
 }
 
 model Payment {
-  id             String     @id @default(uuid()) @db.Uuid
+  id             String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   amountRequired Int
   amountPaid     Int
   amountCut      Int
@@ -114,20 +111,20 @@ model Payment {
   datePaid       DateTime?
   dateDeleted    DateTime?
   dateCreated    DateTime   @default(now())
-  dateUpdated    DateTime   @updatedAt
-  booking        Booking    @relation(fields: [bookingId], references: [id])
-  bookingId      String
+  dateUpdated    DateTime   @updatedAt @default(now())
+  bookingId      String     @db.Uuid
   discount       Discount[]
+  booking        Booking    @relation(fields: [bookingId], references: [id])
 }
 
 model Discount {
-  id               String   @id @default(uuid()) @db.Uuid
+  id               String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   amountPercentage Int
   amount           Int
+  eventId          String?  @db.Uuid
+  paymentId        String?  @db.Uuid
   Event            Event?   @relation(fields: [eventId], references: [id])
-  eventId          String?
   Payment          Payment? @relation(fields: [paymentId], references: [id])
-  paymentId        String?
 }
 
 enum Role {
