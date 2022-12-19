@@ -1,17 +1,18 @@
 <script lang="ts" setup>
   import { useForm, useField } from 'vee-validate'
-
+  import { serviceUserAdd } from '~/server/services/userService'
   const { values, errors, useFieldModel, ...form } = useForm<{
     email: string
     pw: string
     pwConfirm: string
-    name:string
+    name: string
   }>({
     validationSchema: {
       name(value: string) {
         if (value.length < 3) return 'Name is too short'
         if (value.length > 30) return 'Name is too long'
-        if(!value.match(/^([^0-9|@|.|]*)$/g)) return 'Invalid character in the names'
+        if (!value.match(/^([^0-9|@|.|]*)$/g))
+          return 'Invalid character in the names'
         return true
       },
       email(value: string) {
@@ -71,9 +72,21 @@
     // force to validate
     const res = await form.validate()
     if (!res.valid) return
-    const signIn = await serviceAuthSignIn({
-      data: { email: email.value, password: pw.value },
+    const loadingId = '123'
+    toastAdd({
+      id: loadingId,
+      title: 'Processing registration...',
+      message: 'Processing registration...',
+      type: 'PENDING',
+      noHover: true,
     })
+    const signIn = await serviceUserAdd({
+      email: email.value,
+      name: name.value,
+      password: pw.value,
+      phone: '123123123',
+    })
+    toastRemove(loadingId)
     if (!signIn)
       return toastAdd({
         title: 'Sign in failed',
@@ -81,8 +94,8 @@
         type: 'ERROR',
       })
     toastAdd({
-      title: 'Login success',
-      message: 'Login success',
+      title: 'Registration success',
+      message: 'Registration success',
       type: 'SUCCESS',
     })
     navigateTo('/')
@@ -91,7 +104,7 @@
 <template>
   <div class="flex flex-col gap-2 sm:gap-4 items-center p-2 sm:p-4">
     <form class="flex flex-col gap-i" @submit.prevent="handleSubmit">
-      <TransitionGroup
+      <!-- <TransitionGroup
         enter-active-class="duration-300 transition-all"
         enter-from-class="opacity-0"
         enter-to-class="opacity-1000"
@@ -99,91 +112,89 @@
         leave-active-class="absolute duration-200 transition-all"
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
+      > -->
+      <CommonsInput v-model="name" placeholder="Name">
+        <template #lead>
+          <span
+            class="flex items-center sm:text-2xl p-1 sm:p-2 duration-500 ease-in"
+            :class="{
+              'text-red-500': errors.name,
+            }"
+          >
+            <i-mdi-alpha
+              class="group-focus-within:scale-125 transition-all ease-out duration-300"
+            />
+          </span>
+        </template>
+      </CommonsInput>
+      <span
+        v-if="errors.name"
+        class="max-sm:text-sm text-red-500 font-medium"
+        >{{ errors.name }}</span
       >
-        <CommonsInput v-model="name" placeholder="Name">
-          <template #lead>
-            <span
-              class="flex items-center sm:text-2xl p-1 sm:p-2 duration-500 ease-in"
-              :class="{
-                'text-red-500': errors.name,
-              }"
-            >
-              <i-mdi-alpha
-                class="group-focus-within:scale-125 transition-all ease-out duration-300"
-              />
-            </span>
-          </template>
-        </CommonsInput>
-        <span
-          v-if="errors.name"
-          class="max-sm:text-sm text-red-500 font-medium"
-          >{{ errors.name }}</span
-        >
-        <CommonsInput v-model="email" placeholder="Email" type="email">
-          <template #lead>
-            <span
-              class="flex items-center sm:text-2xl p-1 sm:p-2 duration-500 ease-in"
-              :class="{
-                'text-red-500': errors.email,
-              }"
-            >
-              <i-ic-round-alternate-email
-                class="group-focus-within:scale-125 transition-all ease-out duration-300"
-              />
-            </span>
-          </template>
-        </CommonsInput>
-        <span
-          v-if="errors.email"
-          class="max-sm:text-sm text-red-500 font-medium"
-          >{{ errors.email }}</span
-        >
-        <CommonsInput v-model="pw" placeholder="Password" type="password">
-          <template #lead>
-            <span
-              class="flex items-center sm:text-2xl p-1 sm:p-2 duration-500 ease-in"
-              :class="{
-                'text-red-500': errors.pw,
-              }"
-            >
-              <i-mdi-key-outline
-                class="group-focus-within:scale-125 transition-all ease-out duration-300"
-              />
-            </span>
-          </template>
-        </CommonsInput>
-        <span
-          v-if="errors.pw"
-          class="max-sm:text-sm text-red-500 font-medium"
-          >{{ errors.pw }}</span
-        >
-        <CommonsInput
-          v-model="pwConfirm"
-          placeholder="Confirm password"
-          type="password"
-        >
-          <template #lead>
-            <span   
-              class="flex items-center sm:text-2xl p-1 sm:p-2 duration-500 ease-in"
-              :class="{
-                'text-red-500': errors.pwConfirm,
-              }"
-            >
-              <i-mdi-lock-outline
-                class="group-focus-within:scale-125 transition-all ease-out duration-300"
-              />
-            </span>
-          </template>
-        </CommonsInput>
-        <span
-          v-if="errors.pwConfirm"
-          class="max-sm:text-sm text-red-500 font-medium"
-          >{{ errors.pwConfirm }}</span
-        >
-        <div class="w-full">
-          <CommonsButton class="w-full" text="Register" type="submit" />
-        </div>
-      </TransitionGroup>
+      <CommonsInput v-model="email" placeholder="Email" type="email">
+        <template #lead>
+          <span
+            class="flex items-center sm:text-2xl p-1 sm:p-2 duration-500 ease-in"
+            :class="{
+              'text-red-500': errors.email,
+            }"
+          >
+            <i-ic-round-alternate-email
+              class="group-focus-within:scale-125 transition-all ease-out duration-300"
+            />
+          </span>
+        </template>
+      </CommonsInput>
+      <span
+        v-if="errors.email"
+        class="max-sm:text-sm text-red-500 font-medium"
+        >{{ errors.email }}</span
+      >
+      <CommonsInput v-model="pw" placeholder="Password" type="password">
+        <template #lead>
+          <span
+            class="flex items-center sm:text-2xl p-1 sm:p-2 duration-500 ease-in"
+            :class="{
+              'text-red-500': errors.pw,
+            }"
+          >
+            <i-mdi-key-outline
+              class="group-focus-within:scale-125 transition-all ease-out duration-300"
+            />
+          </span>
+        </template>
+      </CommonsInput>
+      <span v-if="errors.pw" class="max-sm:text-sm text-red-500 font-medium">{{
+        errors.pw
+      }}</span>
+      <CommonsInput
+        v-model="pwConfirm"
+        placeholder="Confirm password"
+        type="password"
+      >
+        <template #lead>
+          <span
+            class="flex items-center sm:text-2xl p-1 sm:p-2 duration-500 ease-in"
+            :class="{
+              'text-red-500': errors.pwConfirm,
+            }"
+          >
+            <i-mdi-lock-outline
+              class="group-focus-within:scale-125 transition-all ease-out duration-300"
+            />
+          </span>
+        </template>
+      </CommonsInput>
+      <span
+        v-if="errors.pwConfirm"
+        class="max-sm:text-sm text-red-500 font-medium"
+        >{{ errors.pwConfirm }}</span
+      >
+      <div class="w-full">
+        <CommonsButton class="w-full" text="Register" type="submit" />
+      </div>
+      <!-- </TransitionGroup> -->
     </form>
   </div>
 </template>
