@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,6 +8,126 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id     String  @id @default(uuid()) @db.Uuid
+  bio    String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId String  @unique
+}
+
+model User {
+  id          String    @id @default(uuid()) @db.Uuid
+  password    String    @db.VarChar(30)
+  email       String    @unique
+  name        String
+  phone       String    @db.VarChar(15)
+  role        Role      @default(USER)
+  dateDeleted DateTime?
+  dateCreated DateTime  @default(now())
+  dateUpdated DateTime  @updatedAt
+  vendors     Vendor[]
+  profile     Profile?
+  Event       Event[]
+  booking     Booking[]
+}
+
+model Vendor {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @db.VarChar(100)
+  address     String
+  dateDeleted DateTime?
+  dateCreated DateTime  @default(now())
+  dateUpdated DateTime  @updatedAt
+  owner       User      @relation(fields: [ownerId], references: [id])
+  ownerId     String
+}
+
+model Event {
+  id          String     @id @default(uuid()) @db.Uuid
+  title       String     @unique
+  type        String
+  address     String
+  dateStart   String
+  dateEnd     String
+  desc        String     @db.VarChar(1000)
+  thumbnail   String
+  tickets     Ticket[]
+  dateDeleted DateTime?
+  dateCreated DateTime   @default(now())
+  dateUpdated DateTime   @updatedAt
+  user        User       @relation(fields: [userId], references: [id])
+  userId      String
+  booking     Booking[]
+  discount    Discount[]
+}
+
+model Ticket {
+  id          String           @id @default(uuid()) @db.Uuid
+  name        String           @db.VarChar(50)
+  max         Int
+  price       Int
+  dateStart   DateTime?
+  dateEnd     DateTime?
+  dateDeleted DateTime?
+  dateCreated DateTime         @default(now())
+  dateUpdated DateTime         @updatedAt
+  booking     BookingDetails[]
+  event       Event            @relation(fields: [eventId], references: [id])
+  eventId     String
+}
+
+model Booking {
+  id          String           @id @default(uuid()) @db.Uuid
+  qr          String
+  dateDeleted DateTime?
+  dateCreated DateTime         @default(now())
+  dateUpdated DateTime         @updatedAt
+  type        String
+  payments    Payment[]
+  details     BookingDetails[]
+  user        User             @relation(fields: [userId], references: [id])
+  userId      String
+  event       Event            @relation(fields: [eventId], references: [id])
+  eventId     String
+}
+
+model BookingDetails {
+  id          String    @id @default(uuid()) @db.Uuid
+  qty         Int
+  dateDeleted DateTime?
+  dateCreated DateTime  @default(now())
+  dateUpdated DateTime  @updatedAt
+  booking     Booking   @relation(fields: [bookingId], references: [id])
+  bookingId   String
+  ticket      Ticket    @relation(fields: [ticketId], references: [id])
+  ticketId    String
+}
+
+model Payment {
+  id             String     @id @default(uuid()) @db.Uuid
+  amountRequired Int
+  amountPaid     Int
+  amountCut      Int
+  dateLimit      DateTime
+  datePaid       DateTime?
+  dateDeleted    DateTime?
+  dateCreated    DateTime   @default(now())
+  dateUpdated    DateTime   @updatedAt
+  booking        Booking    @relation(fields: [bookingId], references: [id])
+  bookingId      String
+  discount       Discount[]
+}
+
+model Discount {
+  id               String   @id @default(uuid()) @db.Uuid
+  amountPercentage Int
+  amount           Int
+  Event            Event?   @relation(fields: [eventId], references: [id])
+  eventId          String?
+  Payment          Payment? @relation(fields: [paymentId], references: [id])
+  paymentId        String?
 }
 
 enum Role {
