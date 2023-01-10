@@ -23,14 +23,17 @@
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.8.0",
     "nuxt": "3.0.0",
+    "nuxt-icon": "^0.1.8",
     "prisma": "^4.7.1",
     "unplugin-icons": "^0.14.14",
     "unplugin-vue-components": "^0.22.11"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.4",
+    "@pinia/nuxt": "^0.4.6",
     "@prisma/client": "^4.7.1",
     "hostname-patcher": "^1.2.0",
+    "mongoose": "^6.8.3",
     "vee-validate": "^4.7.3"
   }
 }
