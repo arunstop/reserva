@@ -79,7 +79,8 @@
               'text-red-500': errors.email,
             }"
           >
-            <i-ic-round-alternate-email
+            <Icon
+            name="ic:round-alternate-email"
               class="group-focus-within:scale-125 transition-all ease-out duration-300"
             />
           </label>
@@ -96,7 +97,8 @@
               'text-red-500': errors.password,
             }"
           >
-            <i-ic-outline-password
+            <Icon
+            name="ic:outline-password"
               class="group-focus-within:scale-125 transition-all ease-out duration-300"
             />
           </label>

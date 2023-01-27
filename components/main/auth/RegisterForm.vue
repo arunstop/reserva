@@ -121,7 +121,8 @@
               'text-red-500': errors.name,
             }"
           >
-            <i-mdi-alpha
+            <Icon
+              name="mdi:alpha"
               class="group-focus-within:scale-125 transition-all ease-out duration-300"
             />
           </span>
@@ -130,8 +131,7 @@
       <span
         v-if="errors.name"
         class="max-sm:text-sm text-red-500 font-medium"
-        >{{ errors.name }}</span
-      >
+      >{{ errors.name }}</span>
       <CommonsInput v-model="email" placeholder="Email" type="email">
         <template #lead>
           <span
@@ -140,7 +140,8 @@
               'text-red-500': errors.email,
             }"
           >
-            <i-ic-round-alternate-email
+            <Icon
+              name="ic:round-alternate-email"
               class="group-focus-within:scale-125 transition-all ease-out duration-300"
             />
           </span>
@@ -149,8 +150,7 @@
       <span
         v-if="errors.email"
         class="max-sm:text-sm text-red-500 font-medium"
-        >{{ errors.email }}</span
-      >
+      >{{ errors.email }}</span>
       <CommonsInput v-model="pw" placeholder="Password" type="password">
         <template #lead>
           <span
@@ -159,7 +159,8 @@
               'text-red-500': errors.pw,
             }"
           >
-            <i-mdi-key-outline
+            <Icon
+              name="mdi:key-outline"
               class="group-focus-within:scale-125 transition-all ease-out duration-300"
             />
           </span>
@@ -180,7 +181,8 @@
               'text-red-500': errors.pwConfirm,
             }"
           >
-            <i-mdi-lock-outline
+            <Icon
+              name="mdi:lock-outline"
               class="group-focus-within:scale-125 transition-all ease-out duration-300"
             />
           </span>
@@ -189,8 +191,7 @@
       <span
         v-if="errors.pwConfirm"
         class="max-sm:text-sm text-red-500 font-medium"
-        >{{ errors.pwConfirm }}</span
-      >
+      >{{ errors.pwConfirm }}</span>
       <div class="w-full">
         <CommonsButton class="w-full" text="Register" type="submit" />
       </div>

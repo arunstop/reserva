@@ -72,7 +72,7 @@
         class="self-start max-sm:w-full"
         @click="() => addBooking()"
       >
-        <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
+        <Icon name="mdi:check-bold" class="text-lg sm:text-xl hidden sm:block" />
         <span class="">Add more</span>
       </CommonsButton>
       <CommonsButton
@@ -80,7 +80,7 @@
         class="self-start max-sm:w-full from-pink-500 to-red-500"
         @click="() => onClear?.()"
       >
-        <i-mdi-close-bold class="text-lg sm:text-xl hidden sm:block" />
+        <Icon name="mdi:close-bold" class="text-lg sm:text-xl hidden sm:block" />
         <span class="">Remove</span>
       </CommonsButton>
     </div>

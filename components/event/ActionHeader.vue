@@ -56,20 +56,20 @@
       <div class="flex gap-[inherit] items-center">
         <span class="font-bold">50 / 500</span>
         <CommonsChip class="text-red-300 text-sm sm:text-base">
-          <i-mdi-alert-circle-outline class="text-lg sm:text-xl" />
+          <Icon name="mdi:alert-circle-outline" class="text-lg sm:text-xl" />
           <span>13 hours left</span>
         </CommonsChip>
       </div>
       <div class="flex gap-[inherit]">
         <CommonsButton class="flex from-yellow-500 to-red-500" @click="openBookingModal">
-          <i-mdi-cart class="text-lg sm:text-xl" />
+          <Icon name="mdi:cart" class="text-lg sm:text-xl" />
           <span class="hidden sm:block">Add to cart</span>
         </CommonsButton>
         <CommonsButton
           class="flex from-pink-500 to-purple-500"
           @click="openBookingModal"
         >
-          <i-mdi-check-bold class="text-lg sm:text-xl" />
+          <Icon name="mdi:check-bold" class="text-lg sm:text-xl" />
           <span class="hidden sm:block">Reserve</span>
         </CommonsButton>
       </div>

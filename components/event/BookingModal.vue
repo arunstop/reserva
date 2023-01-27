@@ -140,7 +140,7 @@
           :disabled="loading"
           @click="addToCart"
         >
-          <i-mdi-cart class="text-lg sm:text-xl hidden sm:block" />
+          <Icon name="mdi:cart" class="text-lg sm:text-xl hidden sm:block" />
           <span class="text-lg">Add to cart</span>
         </CommonsButton>
         <CommonsButton
@@ -148,14 +148,14 @@
           :disabled="loading"
           @click="confirm"
         >
-          <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
+          <Icon name="mdi:check-bold" class="text-lg sm:text-xl hidden sm:block" />
           <span class="text-lg">Reserve my spot</span>
         </CommonsButton>
         <CommonsButton
           class="sm:hidden max-sm:w-full bg-none bg-black/50"
           @click="closeModal"
         >
-          <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
+          <Icon name="mdi:check-bold" class="text-lg sm:text-xl hidden sm:block" />
           <span class="text-lg">Cancel</span>
         </CommonsButton>
       </div>

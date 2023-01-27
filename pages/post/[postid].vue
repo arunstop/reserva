@@ -49,14 +49,14 @@
       </h1>
       <!-- Time -->
       <div class="flex items-center gap-2 sm:gap-4">
-        <i-mdi-calendar class="text-lg sm:text-xl" />
+        <Icon name="mdi:calendar" class="text-lg sm:text-xl" />
         <h2 class="text-lg sm:text-xl first-letter:capitalize font-semibold">
           25 August 07:00 - 20 November 21:00
         </h2>
       </div>
       <!-- Place -->
       <div class="flex items-center gap-2 sm:gap-4">
-        <i-mdi-map-marker class="text-lg sm:text-xl" />
+        <Icon name="mdi:map-marker" class="text-lg sm:text-xl" />
         <h2 class="text-lg sm:text-xl first-letter:capitalize font-semibold">
           New York
         </h2>
