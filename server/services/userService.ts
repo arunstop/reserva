@@ -13,15 +13,9 @@ export async function serviceUserAdd(data: Prisma.UserCreateInput) {
   //   return error as string
   // }
   try {
-    // create user
-    await prisma.user.create({
+    // create user and get user
+    const newUser = await prisma.user.create({
       data,
-    })
-    // get user
-    const newUser = await prisma.user.findUnique({
-      where: {
-        email: data.email,
-      },
     })
     if (!newUser) throw new Error('Cannot find user')
     return newUser
