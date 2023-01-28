@@ -92,7 +92,8 @@
             <ComboboxButton
               class="absolute inset-y-0 right-0 flex items-center pr-2"
             >
-              <i-mdi-chevron-down
+              <Icon
+                name="mdi:chevron-down"
                 class="h-5 w-5 text-gray-400"
                 aria-hidden="true"
               />
@@ -129,7 +130,8 @@
                     'text-gray-900': !active,
                   }"
                 >
-                  <i-mdi-check
+                  <Icon
+                    name="mdi:check"
                     class="text-lg sm:text-xl"
                     :class="{
                       'opacity-0': !selected,
@@ -167,7 +169,7 @@
             class="!rounded-none !rounded-l-xl text-xl sm:text-2xl bg-none text-current"
             @click="changeQty(-1)"
           >
-            <i-ic-round-minus />
+            <Icon name="ic:round-minus" />
           </CommonsButton>
         </template>
         <template #trail>
@@ -175,7 +177,7 @@
             class="!rounded-none !rounded-r-xl text-xl sm:text-2xl bg-none text-current"
             @click="changeQty(1)"
           >
-            <i-ic-round-plus />
+            <Icon name="ic:round-plus" />
           </CommonsButton>
         </template>
       </CommonsInput>
@@ -185,7 +187,7 @@
         :disabled="closeable"
         @click="onRemove?.()"
       >
-        <i-mdi-close-bold />
+        <Icon name="mdi:close-bold" />
       </CommonsButton>
     </div>
   </div>

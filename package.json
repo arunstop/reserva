@@ -8,9 +8,6 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.11",
-    "@iconify-json/ic": "^1.1.10",
-    "@iconify-json/mdi": "^1.1.36",
     "@nuxtjs/google-fonts": "^3.0.0-1",
     "@nuxtjs/supabase": "^0.2.5",
     "@nuxtjs/tailwindcss": "^6.1.3",
@@ -24,15 +21,12 @@
     "eslint-plugin-vue": "^9.8.0",
     "nuxt": "3.0.0",
     "nuxt-icon": "^0.1.8",
-    "prisma": "^4.7.1",
-    "unplugin-icons": "^0.14.14",
-    "unplugin-vue-components": "^0.22.11"
+    "prisma": "^4.7.1"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.4",
     "@pinia/nuxt": "^0.4.6",
     "@prisma/client": "^4.7.1",
-    "hostname-patcher": "^1.2.0",
     "mongoose": "^6.8.3",
     "vee-validate": "^4.7.3"
   }

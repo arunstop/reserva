@@ -86,10 +86,10 @@
         class="text-xl sm:text-2xl flex transition-all group-hover:scale-125 sm:group-hover:scale-150"
         :class="style.icon"
       >
-        <i-mdi-check-all v-if="toast.type === `SUCCESS`" />
-        <i-mdi-alert-circle-outline v-else-if="toast.type === `ERROR`" />
-        <i-mdi-dots-horizontal v-else-if="toast.type === `PENDING`" />
-        <i-mdi-checkbox-blank-circle v-else />
+        <Icon v-if="toast.type === `SUCCESS`" name="mdi:check-all" />
+        <Icon v-else-if="toast.type === `ERROR`" name="mdi:alert-circle-outline" />
+        <Icon v-else-if="toast.type === `PENDING`" name="mdi:dots-horizontal" />
+        <Icon v-else name="mdi:checkbox-blank-circle" />
       </span>
       <span class="max-sm:text-sm font-medium"> {{ toast.message }}</span>
 

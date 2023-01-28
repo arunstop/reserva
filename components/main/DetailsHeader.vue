@@ -28,7 +28,7 @@
         <span
           class="text-orange-500 text-xl sm:text-3xl m-2  peer-focus:scale-110"
         >
-          <i-mdi-search />
+          <Icon name="mdi:search" />
         </span>
       </template>
     </CommonsInput>

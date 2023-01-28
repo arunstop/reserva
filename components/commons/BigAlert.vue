@@ -12,7 +12,7 @@
     <div class="text-4xl sm:text-5xl text-gray-900">
       <slot name="icon" />
       <slot name="default">
-        <i-mdi-robot-confused-outline />
+        <Icon name="mdi:robot-confused-outline" />
       </slot>
     </div>
     <span class="text-xl sm:text-2xl font-medium text-gray-500">{{

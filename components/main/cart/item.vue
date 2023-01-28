@@ -124,14 +124,14 @@
               class="self-start max-sm:w-full"
               @click="() => addBooking()"
             >
-              <i-mdi-plus-bold class="text-lg sm:text-xl hidden sm:block" />
+              <Icon name="mdi:plus-bold" class="text-lg sm:text-xl hidden sm:block" />
               <span class="">Add more</span>
             </CommonsButton>
             <CommonsButton
               class="self-start max-sm:w-full from-pink-500 to-red-500"
               @click="() => handleFormClear(key)"
             >
-              <i-mdi-close-bold class="text-lg sm:text-xl hidden sm:block" />
+              <Icon name="mdi:close-bold" class="text-lg sm:text-xl hidden sm:block" />
               <span class="">Remove</span>
             </CommonsButton>
             <span class="max-sm:self-end max-sm:order-first sm:ml-auto">
@@ -154,7 +154,7 @@
         class="max-sm:w-full from-yellow-500 via-green-500 to-green-500"
         @click="checkout"
       >
-        <i-mdi-check-bold class="text-lg sm:text-xl hidden sm:block" />
+        <Icon name="mdi:check-bold" class="text-lg sm:text-xl hidden sm:block" />
         <span class="">Checkout</span>
       </CommonsButton>
     </div>
