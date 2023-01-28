@@ -7,6 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+  VENDOR
+}
+
+enum AuthType {
+  GOOGLE
+  EMAIL
+  PHONE
+  FACEBOOK
+  GITHUB
+  APPLE
+}
+
 model User {
   id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   password    String    @db.VarChar(30)
@@ -16,7 +31,9 @@ model User {
   role        Role      @default(USER)
   dateDeleted DateTime?
   dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @updatedAt @default(now())
+  dateUpdated DateTime  @default(now()) @updatedAt
+  auth_type   AuthType
+  isOff       Boolean   @default(true)
   booking     Booking[]
   Event       Event[]
   profile     Profile?
@@ -36,27 +53,28 @@ model Vendor {
   address     String
   dateDeleted DateTime?
   dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @updatedAt @default(now())
+  dateUpdated DateTime  @default(now()) @updatedAt
   ownerId     String    @db.Uuid
   owner       User      @relation(fields: [ownerId], references: [id])
 }
 
 model Event {
-  id          String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  title       String     @unique
+  id          String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title       String            @unique
   type        String
   address     String
   dateStart   String
   dateEnd     String
-  desc        String     @db.VarChar(1000)
+  desc        String            @db.VarChar(1000)
   thumbnail   String
   dateDeleted DateTime?
-  dateCreated DateTime   @default(now())
-  dateUpdated DateTime   @updatedAt @default(now())
-  userId      String     @db.Uuid
+  dateCreated DateTime          @default(now())
+  dateUpdated DateTime          @default(now()) @updatedAt
+  userId      String            @db.Uuid
   booking     Booking[]
   discount    Discount[]
-  user        User       @relation(fields: [userId], references: [id])
+  user        User              @relation(fields: [userId], references: [id])
+  question    BookingQuestion[]
   tickets     Ticket[]
 }
 
@@ -69,7 +87,7 @@ model Ticket {
   dateEnd     DateTime?
   dateDeleted DateTime?
   dateCreated DateTime         @default(now())
-  dateUpdated DateTime         @updatedAt @default(now())
+  dateUpdated DateTime         @default(now()) @updatedAt
   eventId     String           @db.Uuid
   booking     BookingDetails[]
   event       Event            @relation(fields: [eventId], references: [id])
@@ -77,15 +95,16 @@ model Ticket {
 
 model Booking {
   id          String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  qr          String
   dateDeleted DateTime?
   dateCreated DateTime         @default(now())
-  dateUpdated DateTime         @updatedAt @default(now())
+  dateUpdated DateTime         @default(now()) @updatedAt
   type        String
   userId      String           @db.Uuid
   eventId     String           @db.Uuid
+  slug        String
   event       Event            @relation(fields: [eventId], references: [id])
   user        User             @relation(fields: [userId], references: [id])
+  answer      BookingAnswer[]
   details     BookingDetails[]
   payments    Payment[]
 }
@@ -95,7 +114,7 @@ model BookingDetails {
   qty         Int
   dateDeleted DateTime?
   dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @updatedAt @default(now())
+  dateUpdated DateTime  @default(now()) @updatedAt
   bookingId   String    @db.Uuid
   ticketId    String    @db.Uuid
   booking     Booking   @relation(fields: [bookingId], references: [id])
@@ -111,24 +130,49 @@ model Payment {
   datePaid       DateTime?
   dateDeleted    DateTime?
   dateCreated    DateTime   @default(now())
-  dateUpdated    DateTime   @updatedAt @default(now())
+  dateUpdated    DateTime   @default(now()) @updatedAt
   bookingId      String     @db.Uuid
   discount       Discount[]
   booking        Booking    @relation(fields: [bookingId], references: [id])
 }
 
 model Discount {
-  id               String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id               String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   amountPercentage Int
   amount           Int
-  eventId          String?  @db.Uuid
-  paymentId        String?  @db.Uuid
-  Event            Event?   @relation(fields: [eventId], references: [id])
-  Payment          Payment? @relation(fields: [paymentId], references: [id])
+  eventId          String?   @db.Uuid
+  paymentId        String?   @db.Uuid
+  dateCreated      DateTime  @default(now())
+  dateDeleted      DateTime?
+  dateEnded        DateTime?
+  dateUpdated      DateTime  @default(now())
+  isOff            Boolean   @default(true)
+  event            Event?    @relation(fields: [eventId], references: [id])
+  Payment          Payment?  @relation(fields: [paymentId], references: [id])
 }
 
-enum Role {
-  USER
-  ADMIN
-  VENDOR
+model BookingQuestion {
+  id      String                 @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  inputId String                 @db.Uuid
+  inputs  BookingQuestionInput[]
+  Event   Event?                 @relation(fields: [eventId], references: [id])
+  eventId String?                @db.Uuid
+}
+
+model BookingQuestionInput {
+  id         String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title      String
+  selections String[]
+  questionId String          @unique @db.Uuid
+  question   BookingQuestion @relation(fields: [questionId], references: [id])
+  answers    BookingAnswer[]
+}
+
+model BookingAnswer {
+  id        String                @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  answer    String
+  input     BookingQuestionInput? @relation(fields: [inputId], references: [id])
+  inputId   String?               @db.Uuid
+  booking   Booking?              @relation(fields: [bookingId], references: [id])
+  bookingId String?               @db.Uuid
 }
