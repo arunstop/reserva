@@ -1,10 +1,10 @@
-export interface TNetRes<DATA> {
+export interface TNetRes<DATA = undefined> {
   data: DATA
   message: string
   ok: boolean
 }
 
-export function netOk<T = unknown>(data: T, message: string): TNetRes<T> {
+export function netOk<T = undefined>(message: string, data: T): TNetRes<T> {
   return {
     data,
     message,
@@ -12,9 +12,9 @@ export function netOk<T = unknown>(data: T, message: string): TNetRes<T> {
   }
 }
 
-export function netFail<T = unknown>(data: T, message: string): TNetRes<T> {
+export function netFail(message: string): TNetRes {
   return {
-    data,
+    data: undefined,
     message,
     ok: false,
   }
