@@ -94,12 +94,13 @@
       body: body,
     })
     toastRemove(loadingId)
-    if (!signIn.data)
+    if (!signIn.ok)
       return toastAdd({
         title: 'Sign in failed',
         message: 'Sign in failed',
         type: 'ERROR',
       })
+    console.log(signIn.data)
     toastAdd({
       title: 'Registration success',
       message: 'Registration success',

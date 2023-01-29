@@ -21,8 +21,8 @@ export default defineEventHandler(async (event) => {
 
   const body = (await readBody(event)) as Prisma.UserCreateInput
 
-  const createUser = '123'
-  // const createUser = await serviceUserAdd(body)
+  // const createUser = '123'
+  const createUser = await serviceUserAdd(body)
   if (!createUser) {
     return netFail('Failed when creating user')
   }
