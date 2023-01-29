@@ -80,6 +80,7 @@
       title: 'Processing registration...',
       message: 'Processing registration...',
       type: 'PENDING',
+      duration: -1,
       noHover: true,
     })
     const body: Prisma.UserCreateInput = {
