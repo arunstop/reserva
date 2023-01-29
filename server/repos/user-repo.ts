@@ -1,8 +1,20 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 
+export function prismaInit (){
+  return new PrismaClient()
+}
+
 export async function repoUserAdd(data: Prisma.UserCreateInput) {
-  const prisma = new PrismaClient()
-  return await prisma.user.create({
+  return await prismaInit().user.create({
     data,
+  })
+}
+
+export async function repoUserGetByEmail(email:string){
+  if(!email) return null
+  return await prismaInit().user.findFirst({
+    where:{
+      email:email
+    }
   })
 }
