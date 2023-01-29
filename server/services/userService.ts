@@ -1,5 +1,5 @@
-import { PrismaClient, Prisma } from '@prisma/client'
-const prisma = new PrismaClient()
+import { Prisma } from '@prisma/client'
+import { repoUserAdd } from '../repos/user-repo'
 export async function serviceUserAdd(data: Prisma.UserCreateInput) {
   // mongodb
   // try {
@@ -14,9 +14,7 @@ export async function serviceUserAdd(data: Prisma.UserCreateInput) {
   // }
   try {
     // create user and get user
-    const newUser = await prisma.user.create({
-      data,
-    })
+    const newUser = await repoUserAdd(data)
     if (!newUser) throw new Error('Cannot find user')
     return newUser
   } catch (e) {
