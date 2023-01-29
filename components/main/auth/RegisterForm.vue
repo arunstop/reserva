@@ -138,7 +138,7 @@
       </CommonsInput>
       <span
         v-if="errors.name"
-        class="max-sm:text-sm text-red-500 font-medium"
+        class="max-sm:text-xs text-red-500 font-medium"
         >{{ errors.name }}</span
       >
       <CommonsInput v-model="email" placeholder="Email" type="email">
@@ -158,7 +158,7 @@
       </CommonsInput>
       <span
         v-if="errors.email"
-        class="max-sm:text-sm text-red-500 font-medium"
+        class="max-sm:text-xs text-red-500 font-medium"
         >{{ errors.email }}</span
       >
       <CommonsInput v-model="pw" placeholder="Password" type="password">
@@ -176,7 +176,7 @@
           </span>
         </template>
       </CommonsInput>
-      <span v-if="errors.pw" class="max-sm:text-sm text-red-500 font-medium">{{
+      <span v-if="errors.pw" class="max-sm:text-xs text-red-500 font-medium">{{
         errors.pw
       }}</span>
       <CommonsInput
@@ -200,7 +200,7 @@
       </CommonsInput>
       <span
         v-if="errors.pwConfirm"
-        class="max-sm:text-sm text-red-500 font-medium"
+        class="max-sm:text-xs text-red-500 font-medium"
         >{{ errors.pwConfirm }}</span
       >
       <div class="w-full">
