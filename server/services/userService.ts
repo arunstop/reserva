@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client'
+import { netFail, netOk } from '../helper/helper-network'
 import { repoUserAdd, repoUserGetByEmail } from '../repos/user-repo'
 export async function serviceUserAdd(data: Prisma.UserCreateInput) {
   // mongodb
@@ -34,9 +35,9 @@ export async function serviceUserLogin(
     // if password doesn't match throw error
     if (data.password !== userTarget.password) throw new Error('Wrong password')
     // if password match, proceed
-    return userTarget
+    return netOk("Login succeed", userTarget)
   } catch (e) {
     console.error(e)
-    return null
+    return netFail(e+"")
   }
 }
