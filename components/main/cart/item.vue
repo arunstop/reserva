@@ -35,8 +35,9 @@
     }
   })
 
-  const modalDelete = computed(() => !!useRoute().query.deleteConfirmation)
-  const modalDeleteResolve = ref<() => void>(() => null)
+  const modalDelete = computed(
+    () => useRoute().query.deleteConfirmation === key
+  )
 
   function handleFormChange(key: string, item: ICartItem) {
     cartAdd(key, item)
@@ -45,22 +46,24 @@
   function handleFormClear(key: string) {
     navigateTo({
       query: {
-        deleteConfirmation: 'true',
+        deleteConfirmation: key,
       },
     })
-    modalDeleteResolve.value = () => {
-      cartRemove(key)
-      toastAdd({
-        title: 'Item removed from cart',
-        message: 'Item removed from cart',
-        type: 'SUCCESS',
-        clickToClose: true,
-      })
-    }
   }
 
   function closeModalDelete() {
     navigateTo({ query: {} })
+  }
+
+  function confirmModalDelete() {
+    cartRemove(key)
+    console.log(key)
+    toastAdd({
+      title: 'Item removed from cart',
+      message: 'Item removed from cart',
+      type: 'SUCCESS',
+      clickToClose: true,
+    })
   }
 
   function checkout() {
@@ -124,14 +127,20 @@
               class="self-start max-sm:w-full"
               @click="() => addBooking()"
             >
-              <Icon name="mdi:plus-bold" class="text-lg sm:text-xl hidden sm:block" />
+              <Icon
+                name="mdi:plus-bold"
+                class="text-lg sm:text-xl hidden sm:block"
+              />
               <span class="">Add more</span>
             </CommonsButton>
             <CommonsButton
               class="self-start max-sm:w-full from-pink-500 to-red-500"
               @click="() => handleFormClear(key)"
             >
-              <Icon name="mdi:close-bold" class="text-lg sm:text-xl hidden sm:block" />
+              <Icon
+                name="mdi:close-bold"
+                class="text-lg sm:text-xl hidden sm:block"
+              />
               <span class="">Remove</span>
             </CommonsButton>
             <span class="max-sm:self-end max-sm:order-first sm:ml-auto">
@@ -154,7 +163,10 @@
         class="max-sm:w-full from-yellow-500 via-green-500 to-green-500"
         @click="checkout"
       >
-        <Icon name="mdi:check-bold" class="text-lg sm:text-xl hidden sm:block" />
+        <Icon
+          name="mdi:check-bold"
+          class="text-lg sm:text-xl hidden sm:block"
+        />
         <span class="">Checkout</span>
       </CommonsButton>
     </div>
@@ -165,6 +177,6 @@
     :header="`Remove item`"
     :message="`This item will be removed from the cart.\nAre you sure?`"
     :close="closeModalDelete"
-    @ok="modalDeleteResolve"
+    @ok="confirmModalDelete"
   />
 </template>
