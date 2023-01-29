@@ -43,7 +43,7 @@
     cartAdd(key, item)
   }
 
-  function handleFormClear(key: string) {
+  function openModalDelete(key: string) {
     navigateTo({
       query: {
         deleteConfirmation: key,
@@ -116,7 +116,6 @@
         :on-change="handleFormChange"
         :no-buttons="true"
         :spots="spots"
-        @clear="() => handleFormClear(key)"
       >
         <template #buttons="{ addBooking, maxed }">
           <div
@@ -135,7 +134,7 @@
             </CommonsButton>
             <CommonsButton
               class="self-start max-sm:w-full from-pink-500 to-red-500"
-              @click="() => handleFormClear(key)"
+              @click="() => openModalDelete(key)"
             >
               <Icon
                 name="mdi:close-bold"
