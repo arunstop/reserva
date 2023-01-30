@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+  import { Prisma } from '.prisma/client'
+  import { useBodyAttrs } from '@unhead/vue'
   import { useForm, useField } from 'vee-validate'
-  import { serviceUserAdd } from '~/server/services/userService'
+
   const { values, errors, useFieldModel, ...form } = useForm<{
     email: string
     pw: string
@@ -78,21 +80,28 @@
       title: 'Processing registration...',
       message: 'Processing registration...',
       type: 'PENDING',
+      duration: -1,
       noHover: true,
     })
-    const signIn = await serviceUserAdd({
+    const body: Prisma.UserCreateInput = {
       email: email.value,
       name: name.value,
       password: pw.value,
+      auth_type: 'EMAIL',
       phone: '123123123',
+    }
+    const signIn = await $fetch('/api/user/add', {
+      method: 'POST',
+      body: body,
     })
     toastRemove(loadingId)
-    if (!signIn)
+    if (!signIn.ok)
       return toastAdd({
         title: 'Sign in failed',
         message: 'Sign in failed',
         type: 'ERROR',
       })
+    console.log(signIn.data)
     toastAdd({
       title: 'Registration success',
       message: 'Registration success',
@@ -130,8 +139,9 @@
       </CommonsInput>
       <span
         v-if="errors.name"
-        class="max-sm:text-sm text-red-500 font-medium"
-      >{{ errors.name }}</span>
+        class="max-sm:text-xs text-red-500 font-medium"
+        >{{ errors.name }}</span
+      >
       <CommonsInput v-model="email" placeholder="Email" type="email">
         <template #lead>
           <span
@@ -149,8 +159,9 @@
       </CommonsInput>
       <span
         v-if="errors.email"
-        class="max-sm:text-sm text-red-500 font-medium"
-      >{{ errors.email }}</span>
+        class="max-sm:text-xs text-red-500 font-medium"
+        >{{ errors.email }}</span
+      >
       <CommonsInput v-model="pw" placeholder="Password" type="password">
         <template #lead>
           <span
@@ -166,7 +177,7 @@
           </span>
         </template>
       </CommonsInput>
-      <span v-if="errors.pw" class="max-sm:text-sm text-red-500 font-medium">{{
+      <span v-if="errors.pw" class="max-sm:text-xs text-red-500 font-medium">{{
         errors.pw
       }}</span>
       <CommonsInput
@@ -190,8 +201,9 @@
       </CommonsInput>
       <span
         v-if="errors.pwConfirm"
-        class="max-sm:text-sm text-red-500 font-medium"
-      >{{ errors.pwConfirm }}</span>
+        class="max-sm:text-xs text-red-500 font-medium"
+        >{{ errors.pwConfirm }}</span
+      >
       <div class="w-full">
         <CommonsButton class="w-full" text="Register" type="submit" />
       </div>
