@@ -42,11 +42,17 @@
             class="flex from-purple-500 max-sm:order-first to-red-500 h-fit"
             @click="confirm"
           >
-            <Icon name="mdi:check-bold" class="text-lg sm:text-xl max-sm:hidden" />
+            <Icon
+              name="mdi:check-bold"
+              class="text-lg sm:text-xl max-sm:hidden"
+            />
             <span class="">{{ label.ok }}</span>
           </CommonsButton>
           <CommonsButton class="flex h-fit" @click="close">
-            <Icon name="mdi:close-bold" class="text-lg sm:text-xl max-sm:hidden" />
+            <Icon
+              name="mdi:close-bold"
+              class="text-lg sm:text-xl max-sm:hidden"
+            />
             <span class="">{{ label.cancel }}</span>
           </CommonsButton>
         </div>
