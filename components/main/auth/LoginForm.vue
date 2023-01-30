@@ -49,12 +49,23 @@
     // force to validate
     const res = await form.validate()
     if (!res.valid) return
-    const signIn = await serviceAuthSignIn({
-      data: { email: email.value, password: password.value },
+    toastAdd({
+      id: email.value,
+      title: 'Signing you in...',
+      message: 'Signing you in...',
+      type: 'PENDING',
+      clickToClose: false,
+      duration: -1,
+      noHover: true,
     })
-    if (!signIn)
+    const signIn = await $fetch('/api/user/login', {
+      method: 'POST',
+      body: { email: email.value, password: password.value },
+    })
+    toastRemove(email.value)
+    if (!signIn.ok)
       return toastAdd({
-        title: 'Sign in failed',
+        title: `Sign in failed : ${signIn.message}`,
         message: 'Sign in failed',
         type: 'ERROR',
       })
@@ -67,9 +78,7 @@
   }
 </script>
 <template>
-  <div
-    class="flex flex-col gap-2 sm:gap-4 items-center p-2 sm:p-4 "
-  >
+  <div class="flex flex-col gap-2 sm:gap-4 items-center p-2 sm:p-4">
     <form class="flex flex-col gap-i" @submit.prevent="handleSubmit">
       <CommonsInput v-model="email" placeholder="Email">
         <template #lead>
@@ -80,15 +89,17 @@
             }"
           >
             <Icon
-            name="ic:round-alternate-email"
+              name="ic:round-alternate-email"
               class="group-focus-within:scale-125 transition-all ease-out duration-300"
             />
           </label>
         </template>
       </CommonsInput>
-      <span v-if="errors.email" class="text-red-500 font-medium max-sm:text-sm">{{
-        errors.email
-      }}</span>
+      <span
+        v-if="errors.email"
+        class="text-red-500 font-medium max-sm:text-sm"
+        >{{ errors.email }}</span
+      >
       <CommonsInput v-model="password" placeholder="Password" type="password">
         <template #lead>
           <label
@@ -98,15 +109,17 @@
             }"
           >
             <Icon
-            name="ic:outline-password"
+              name="ic:outline-password"
               class="group-focus-within:scale-125 transition-all ease-out duration-300"
             />
           </label>
         </template>
       </CommonsInput>
-      <span v-if="errors.password" class="text-red-500 font-medium max-sm:text-sm">{{
-        errors.password
-      }}</span>
+      <span
+        v-if="errors.password"
+        class="text-red-500 font-medium max-sm:text-sm"
+        >{{ errors.password }}</span
+      >
       <div class="w-full">
         <CommonsButton class="w-full" text="Login" type="submit" />
       </div>
